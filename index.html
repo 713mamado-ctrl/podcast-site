@@ -1,83 +1,272 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>🎙️ بودكاست المصحح اللغوي</title>
-<link rel="stylesheet" href="css/style.css">
 <style>
-  body {
+  :root{
+    --accent:#4CAF50;
+    --accent-dark:#388E3C;
+    --bg:#f8f8f8;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
     font-family: "Tajawal", Arial, sans-serif;
-    background-color: #f8f8f8;
-    text-align: center;
-    padding: 30px;
-    direction: rtl;
+    background:var(--bg);
+    color:#222;
+    direction:rtl;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
   }
-  h1 {
-    color: #333;
-    margin-bottom: 10px;
+
+  .container{
+    max-width:1100px;
+    margin:28px auto;
+    padding:18px;
   }
-  p {
-    color: #555;
+
+  .layout{
+    display:flex;
+    gap:24px;
+    align-items:flex-start;
   }
-  .player-container {
-    background: #fff;
-    border-radius: 15px;
-    padding: 20px;
-    max-width: 700px;
-    margin: 30px auto;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+
+  /* التبويب الجانبي */
+  .sidebar{
+    width:190px; /* ثابت */
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:stretch;
   }
-  video {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 15px;
+  .side-btn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px;
+    background:linear-gradient(135deg,#007bff,#005bb5);
+    color:white;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    text-align:right;
+    font-size:14px;
+    transition:transform .14s ease, background .14s ease;
+    user-select:none;
+    overflow:hidden;
   }
-  .buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+  .side-btn img{
+    width:36px;
+    height:36px;
+    border-radius:6px;
+    object-fit:cover;
+    flex-shrink:0;
   }
-  button, a.download-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: 0.3s;
+  .side-btn span{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block;}
+  .side-btn:hover{ background:linear-gradient(135deg,var(--accent),var(--accent-dark)); transform:translateY(-2px); }
+
+  /* مساحة الفيديو والمعرض */
+  .main {
+    flex:1;
   }
-  button:hover, a.download-btn:hover {
-    background-color: #0056b3;
+
+  .hero{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    margin-bottom:16px;
   }
+  .hero img{
+    width:42px;height:42px;border-radius:8px;object-fit:cover;
+    box-shadow:0 4px 12px rgba(0,0,0,0.12);
+  }
+  .hero .title{
+    font-weight:700;
+    color:var(--accent-dark);
+    font-size:20px;
+  }
+  .hero .subtitle{
+    color:#666;
+    font-size:14px;
+    margin-top:4px;
+  }
+
+  .player-card{
+    background:var(--card);
+    padding:18px;
+    border-radius:14px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  }
+
+  /* الفيديو نفسه */
+  .video-wrap{
+    position:relative;
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:14px;
+  }
+  video{
+    width:100%;
+    height:auto;
+    display:block;
+    background:#000;
+    -webkit-user-drag:none;
+    user-select:none;
+  }
+
+  /* إيقاف النقرات اليمينية على الفيديو */
+  .video-wrap .blocker{
+    position:absolute;inset:0; /* يغطي الفيديو */
+    z-index:5;
+  }
+
+  .controls{
+    display:flex;
+    gap:10px;
+    justify-content:flex-start;
+    margin-top:8px;
+  }
+  .controls button{
+    padding:10px 14px;
+    border-radius:10px;
+    border:none;
+    background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+    color:#fff;
+    cursor:pointer;
+    font-size:15px;
+    transition:transform .12s ease, background .12s ease;
+  }
+  .controls button:hover{ transform:translateY(-3px); background:linear-gradient(135deg,#81C784,#388E3C); }
+
+  /* مسافة أكبر بين التبويب والفيديو (كما طلبت) */
+  @media(min-width:900px){
+    .layout{ gap:32px; }
+    .sidebar{ margin-right:6px; } /* على اليمين */
+  }
+
+  /* مظهر بسيط للأزرار عند التلفظ */
+  .small-note{ color:#666; font-size:13px; margin-top:10px; }
+
 </style>
 </head>
 <body>
 
-<h1>🎧 بودكاست المصحح اللغوي</h1>
-<p>مرحبًا بكم! استمتعوا بأولى حلقاتنا الشيقة 👇</p>
+<div class="container">
+  <div class="layout">
 
-<div class="player-container">
-  <video id="videoPlayer" controls>
-    <source src="assets/ma3kom_podcast_ma3na.mp4" type="video/mp4">
-    متصفحك لا يدعم تشغيل الفيديو.
-  </video>
+    <!-- التبويب على اليمين -->
+    <aside class="sidebar" aria-label="قائمة الحلقات">
+      <!-- كل زر: data-src مع مسار الفيديو الخاص به -->
+      <button class="side-btn" data-src="assets/ma3kom_podcast_opening.mp4">
+        <img src="assets/profile.png" alt="الافتتاح">
+        <span>الافتتاح</span>
+      </button>
 
-  <div class="buttons">
-    <button id="playVideo">تشغيل الفيديو 🎬</button>
-    <button id="pauseVideo">إيقاف مؤقت ⏸️</button>
-    <a href="assets/ma3kom_podcast_ma3na.mp4" download class="download-btn">تحميل الفيديو ⬇️</a>
-    <a href="https://youtu.be/oxSD1S2nq8g" target="_blank" class="download-btn">مشاهدة على اليوتيوب ▶️</a>
+      <button class="side-btn" data-src="assets/ma3kom_podcast_ma3na.mp4">
+        <img src="assets/profile.png" alt="الحلقة الأولى">
+        <span>الحلقة الأولى</span>
+      </button>
+
+      <!-- اضف صفوف إضافية بنفس الشكل اذا تحب -->
+      <button class="side-btn" data-src="assets/ma3kom_podcast_ep2.mp4">
+        <img src="assets/profile.png" alt="الحلقة الثانية">
+        <span>الحلقة الثانية</span>
+      </button>
+
+      <!-- مثال صف فارغ لتعبئة مستقبلاً -->
+      <!-- <button class="side-btn" data-src="assets/....mp4"><img src="assets/profile.png"><span>الحلقة 3</span></button> -->
+    </aside>
+
+    <!-- معرض الفيديو + عنوان -->
+    <main class="main">
+      <div class="hero">
+        <img src="assets/profile.png" alt="صورة المضيف">
+        <div>
+          <div class="title">مرحبًا بكم في بودكاست المصحح اللغوي</div>
+          <div class="subtitle">استمتعوا بأحدث الحلقات هنا — التشغيل يتم داخل الصفحة</div>
+        </div>
+      </div>
+
+      <section class="player-card" aria-label="مشغل الحلقة">
+        <div class="video-wrap" id="videoWrap">
+          <!-- نعرّف الفيديو بدون controls (نستخدم عناصر تحكم خاصة) مع خصائص تمنع التنزيل البسيط -->
+          <video id="videoPlayer" playsinline preload="metadata" controlsList="nodownload nofullscreen noremoteplayback" disablePictureInPicture draggable="false">
+            <source src="assets/ma3kom_podcast_ma3na.mp4" type="video/mp4">
+            آسف، المتصفح لا يدعم تشغيل الفيديو.
+          </video>
+
+          <!-- غطاء يمنع الضغط بالزر الأيمن على الفيديو -->
+          <div class="blocker" oncontextmenu="return false" title="التحميل مُعطل"></div>
+        </div>
+
+        <div class="controls" role="group" aria-label="عناصر تحكم الفيديو">
+          <button id="playBtn">تشغيل ▶</button>
+          <button id="pauseBtn">إيقاف ⏸</button>
+          <button id="rewindBtn">ترجيع 10s ⏪</button>
+        </div>
+
+        <div class="small-note">ملاحظة: تم تعطيل روابط التنزيل المباشرة لحماية المحتوى.</div>
+      </section>
+    </main>
+
   </div>
 </div>
 
 <script>
+  // العناصر
   const video = document.getElementById('videoPlayer');
-  document.getElementById('playVideo').addEventListener('click', () => video.play());
-  document.getElementById('pauseVideo').addEventListener('click', () => video.pause());
-</script>
+  const playBtn = document.getElementById('playBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const rewindBtn = document.getElementById('rewindBtn');
 
+  // تشغيل/ايقاف/ترجيع
+  playBtn.addEventListener('click', ()=> video.play());
+  pauseBtn.addEventListener('click', ()=> video.pause());
+  rewindBtn.addEventListener('click', ()=> {
+    video.currentTime = Math.max(0, video.currentTime - 10);
+  });
+
+  // تغيير مصدر الفيديو عند الضغط على زر في الشريط الجانبي
+  document.querySelectorAll('.side-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const src = btn.getAttribute('data-src');
+      if(!src) return;
+      // لو نفس المصدر نلعب عادي
+      if(video.currentSrc && video.currentSrc.includes(src)) {
+        video.play();
+        return;
+      }
+      // تبديل المصدر وآعادة التحميل ثم التشغيل
+      while(video.firstChild) video.removeChild(video.firstChild); // ازالة المصادر القديمة
+      const source = document.createElement('source');
+      source.src = src;
+      source.type = 'video/mp4';
+      video.appendChild(source);
+      video.load();
+      video.play().catch(()=>{ /* تجاوز أخطاء التشغيل الآلي */ });
+    });
+  });
+
+  // منع قائمة السياق العامة على الفيديو
+  video.addEventListener('contextmenu', e => e.preventDefault());
+
+  // منع اختصارات الحفظ الشائعة على الصفحة (Ctrl+S / Ctrl+U)
+  window.addEventListener('keydown', function(e){
+    if ((e.ctrlKey || e.metaKey) && ['s','S','u','U'].includes(e.key)) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // منع سحب الفيديو للخارج
+  video.addEventListener('dragstart', e => e.preventDefault());
+
+  // رجاءً تأكد أن ملفات الصور والفيديو في المسارات المشار إليها في data-src و img src
+  // إذا اسم صورتك مختلف غيّر "assets/profile.png" للاسم الصحيح.
+
+</script>
 </body>
 </html>
