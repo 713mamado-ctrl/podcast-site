@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>بودكاست المصحح اللغوي</title>
-<link rel="stylesheet" href="css/style.css">
 <style>
   body {
-    font-family: Arial, sans-serif;
+    font-family: "Cairo", sans-serif;
     background: #f9f9f9;
     margin: 0;
     padding: 0;
@@ -15,7 +14,7 @@
   h1 {
     text-align: center;
     color: #333;
-    margin-top: 20px;
+    margin-top: 25px;
   }
 
   .container {
@@ -27,11 +26,11 @@
   }
 
   .sidebar {
-    width: 200px;
+    width: 180px;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin-right: 10px; /* إبعادها عن الإطار */
+    margin-right: 15px; /* تبعدها عن الإطار */
   }
 
   .sidebar button {
@@ -82,9 +81,8 @@
   }
 
   .controls button:hover {
-    background: #388E3C;
+    background: #2e7d32;
   }
-
 </style>
 </head>
 <body>
@@ -99,7 +97,7 @@
   </div>
 
   <div class="video-section">
-    <video id="mainVideo" controls>
+    <video id="mainVideo">
       <source src="assets/ma3kom_podcast_ma3na.mp4" type="video/mp4">
       متصفحك لا يدعم تشغيل الفيديو.
     </video>
@@ -113,35 +111,42 @@
 </div>
 
 <script>
-  const video = document.getElementById('mainVideo');
-  const playBtn = document.getElementById('playBtn');
-  const pauseBtn = document.getElementById('pauseBtn');
-  const rewindBtn = document.getElementById('rewindBtn');
-  const introBtn = document.getElementById('introBtn');
-  const ep1Btn = document.getElementById('ep1Btn');
-  const ep2Btn = document.getElementById('ep2Btn');
+document.addEventListener("DOMContentLoaded", () => {
+  const video = document.getElementById("mainVideo");
+  const playBtn = document.getElementById("playBtn");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const rewindBtn = document.getElementById("rewindBtn");
 
-  playBtn.addEventListener('click', () => video.play());
-  pauseBtn.addEventListener('click', () => video.pause());
-  rewindBtn.addEventListener('click', () => video.currentTime = Math.max(video.currentTime - 5, 0));
+  const introBtn = document.getElementById("introBtn");
+  const ep1Btn = document.getElementById("ep1Btn");
+  const ep2Btn = document.getElementById("ep2Btn");
 
-  introBtn.addEventListener('click', () => {
+  // أزرار التحكم
+  playBtn.onclick = () => video.play();
+  pauseBtn.onclick = () => video.pause();
+  rewindBtn.onclick = () => {
+    video.currentTime = Math.max(video.currentTime - 5, 0);
+  };
+
+  // أزرار الحلقات
+  introBtn.onclick = () => {
     video.src = "assets/ma3kom_podcast_ma3na.mp4";
     video.load();
     video.play();
-  });
+  };
 
-  ep1Btn.addEventListener('click', () => {
+  ep1Btn.onclick = () => {
     video.src = "assets/episode1.mp4";
     video.load();
     video.play();
-  });
+  };
 
-  ep2Btn.addEventListener('click', () => {
+  ep2Btn.onclick = () => {
     video.src = "assets/episode2.mp4";
     video.load();
     video.play();
-  });
+  };
+});
 </script>
 
 </body>
