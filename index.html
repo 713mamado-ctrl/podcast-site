@@ -37,7 +37,7 @@
   .sidebar button {
     background: #fff;
     border: 2px solid #ccc;
-    padding: 5px 10px; /* ارتفاع أصغر */
+    padding: 5px 10px;
     border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
@@ -63,6 +63,12 @@
   video {
     width: 100%;
     border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  /* عداد الوقت */
+  .time-display {
+    font-size: 14px;
     margin-bottom: 15px;
   }
 
@@ -75,10 +81,10 @@
   }
 
   .controls button {
-    background: #4CAF50; /* أخضر افتراضي */
+    background: #4CAF50;
     color: white;
     border: 2px solid #4CAF50;
-    padding: 5px 10px; /* نفس ارتفاع الأزرار العلوية */
+    padding: 5px 10px;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s;
@@ -86,7 +92,7 @@
   }
 
   .controls button:hover {
-    background: white; /* يتحول للأبيض عند المرور */
+    background: white;
     color: #4CAF50;
   }
 </style>
@@ -110,6 +116,9 @@
       متصفحك لا يدعم تشغيل الفيديو.
     </video>
 
+    <!-- عداد الوقت -->
+    <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
+
     <!-- الأزرار السفلية تحت الفيديو -->
     <div class="controls">
       <button id="playBtn">تشغيل</button>
@@ -128,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const introBtn = document.getElementById("introBtn");
   const ep1Btn = document.getElementById("ep1Btn");
   const ep2Btn = document.getElementById("ep2Btn");
+  const timeDisplay = document.getElementById("timeDisplay");
 
   // أزرار التحكم السفلية
   playBtn.onclick = () => { video.play(); };
@@ -138,6 +148,16 @@ document.addEventListener("DOMContentLoaded", () => {
   introBtn.onclick = () => { video.src = "assets/ma3kom_podcast_ma3na.mp4"; video.load(); video.play(); };
   ep1Btn.onclick = () => { video.src = "assets/episode1.mp4"; video.load(); video.play(); };
   ep2Btn.onclick = () => { video.src = "assets/episode2.mp4"; video.load(); video.play(); };
+
+  // تحديث عداد الوقت
+  video.addEventListener('timeupdate', () => {
+    const formatTime = (t) => {
+      const m = Math.floor(t / 60).toString().padStart(2, '0');
+      const s = Math.floor(t % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    };
+    timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration || 0)}`;
+  });
 });
 </script>
 
