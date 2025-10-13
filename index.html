@@ -129,18 +129,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const ep1Btn = document.getElementById("ep1Btn");
   const ep2Btn = document.getElementById("ep2Btn");
 
-  // صوت خفيف عند الضغط
-  const clickSound = new Audio('https://freesound.org/data/previews/66/66717_931655-lq.mp3');
-
   // أزرار التحكم السفلية
-  playBtn.onclick = () => { clickSound.play(); video.play(); };
-  pauseBtn.onclick = () => { clickSound.play(); video.pause(); };
-  rewindBtn.onclick = () => { clickSound.play(); video.currentTime = Math.max(video.currentTime - 5, 0); };
+  playBtn.onclick = () => { video.play(); };
+  pauseBtn.onclick = () => { video.pause(); };
+  rewindBtn.onclick = () => { video.currentTime = Math.max(video.currentTime - 5, 0); };
 
   // أزرار الحلقات
-  introBtn.onclick = () => { clickSound.play(); video.src = "assets/ma3kom_podcast_ma3na.mp4"; video.load(); video.play(); };
-  ep1Btn.onclick = () => { clickSound.play(); video.src = "assets/episode1.mp4"; video.load(); video.play(); };
-  ep2Btn.onclick = () => { clickSound.play(); video.src = "assets/episode2.mp4"; video.load(); video.play(); };
+  introBtn.onclick = () => { video.src = "assets/ma3kom_podcast_ma3na.mp4"; video.load(); video.play(); };
+  ep1Btn.onclick = () => { video.src = "assets/episode1.mp4"; video.load(); video.play(); };
+  ep2Btn.onclick = () => { video.src = "assets/episode2.mp4"; video.load(); video.play(); };
 });
 </script>
 
