@@ -22,7 +22,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 30px;
+    gap: 40px;
     padding: 30px;
   }
 
@@ -31,6 +31,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-right: 10px; /* إبعادها عن الإطار */
   }
 
   .sidebar button {
@@ -122,17 +123,26 @@
 
   playBtn.addEventListener('click', () => video.play());
   pauseBtn.addEventListener('click', () => video.pause());
-  rewindBtn.addEventListener('click', () => video.currentTime -= 5);
+  rewindBtn.addEventListener('click', () => video.currentTime = Math.max(video.currentTime - 5, 0));
 
   introBtn.addEventListener('click', () => {
     video.src = "assets/ma3kom_podcast_ma3na.mp4";
+    video.load();
     video.play();
   });
 
   ep1Btn.addEventListener('click', () => {
     video.src = "assets/episode1.mp4";
+    video.load();
     video.play();
   });
 
   ep2Btn.addEventListener('click', () => {
-    video.src = "assets/e
+    video.src = "assets/episode2.mp4";
+    video.load();
+    video.play();
+  });
+</script>
+
+</body>
+</html>
