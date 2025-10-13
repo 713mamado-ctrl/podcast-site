@@ -1,201 +1,89 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>بودكاست المصحح اللغوي</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بودكاست الحلقة الأولى</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
-    background: #f9f9f9;
-    margin: 0;
-    padding: 0;
-    color: #333; /* لون النص الأساسي */
+    margin:0;
+    font-family: 'Cairo', sans-serif;
+    background:#000;
+    text-align:center;
   }
-
-  a, button {
-    color: #333; /* نصوص واضحة */
-    text-decoration: none;
-  }
-
-  /* الترحيب الملون */
-  h1 {
-    text-align: center;
-    margin-top: 25px;
-  }
-
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;
-    padding: 30px;
-  }
-
-  /* الأزرار الجانبية العليا */
-  .sidebar {
-    width: 180px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-right: 15px;
-  }
-
-  .sidebar button {
-    background: #fff;
-    border: 2px solid #ccc;
-    padding: 5px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s ease;
-    color: #333;
-  }
-
-  .sidebar button:hover {
-    background: #4CAF50;
-    color: white;
-    border-color: #4CAF50;
-  }
-
-  .sidebar button:active {
-    transform: scale(1.05);
-  }
-
-  /* قسم الفيديو */
-  .video-section {
-    background: #fff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    text-align: center;
-    width: 700px;
-    position: relative;
-  }
-
   video {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    opacity: 1;
-    transition: opacity 0.5s ease;
+    width:70%;
+    margin-top:30px;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(0,255,0,0.3);
   }
-
-  /* عداد الوقت تحت الفيديو */
-  .time-display {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
+  #subtitles {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background:rgba(255,255,255,0.85);
+    padding:10px 20px;
+    border-radius:10px;
+    font-size:1.5em;
+    color:#003366; /* أزرق داكن */
+    max-width:80%;
+    transition:opacity 1s ease-in-out;
+    opacity:0;
   }
-
-  /* الأزرار السفلية تحت الفيديو */
-  .controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-
-  .controls button {
-    background: #4CAF50;
-    color: white;
-    border: 2px solid #4CAF50;
-    padding: 5px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 14px;
-  }
-
-  .controls button:hover {
-    background: white;
-    color: #4CAF50;
-  }
-
-  .controls button:active {
-    transform: scale(1.05);
+  #timer {
+    margin-top:15px;
+    font-size:1em;
+    color:#0f0;
+    opacity:0.8;
   }
 </style>
 </head>
 <body>
 
-<h1>
-  <span style="color:#e74c3c;">مرحبًا</span>
-  <span style="color:#f1c40f;">بكم</span>
-  <span style="color:#2ecc71;">في</span>
-  <span style="color:#3498db;">بودكاست</span>
-  <span style="color:#9b59b6;">المصحح</span>
-  <span style="color:#e67e22;">اللغوي</span>
-</h1>
+<video id="podcastVideo" controls>
+  <source src="episode1.mp4" type="video/mp4">
+  متصفحك لا يدعم عرض الفيديو.
+</video>
 
-<div class="container">
-  <!-- الأزرار الجانبية العليا -->
-  <div class="sidebar">
-    <button id="introBtn">الافتتاح</button>
-    <button id="ep1Btn">الحلقة الأولى</button>
-    <button id="ep2Btn">الحلقة الثانية</button>
-  </div>
-
-  <!-- قسم الفيديو -->
-  <div class="video-section">
-    <video id="mainVideo">
-      <source src="assets/ma3kom_podcast_ma3na.mp4" type="video/mp4">
-      متصفحك لا يدعم تشغيل الفيديو.
-    </video>
-
-    <!-- عداد الوقت تحت الفيديو مباشرة -->
-    <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
-
-    <!-- الأزرار السفلية تحت الفيديو -->
-    <div class="controls">
-      <button id="playBtn">تشغيل</button>
-      <button id="pauseBtn">إيقاف</button>
-      <button id="rewindBtn">ترجيع</button>
-    </div>
-  </div>
-</div>
+<div id="subtitles"></div>
+<div id="timer">00:00</div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const video = document.getElementById("mainVideo");
-  const playBtn = document.getElementById("playBtn");
-  const pauseBtn = document.getElementById("pauseBtn");
-  const rewindBtn = document.getElementById("rewindBtn");
-  const introBtn = document.getElementById("introBtn");
-  const ep1Btn = document.getElementById("ep1Btn");
-  const ep2Btn = document.getElementById("ep2Btn");
-  const timeDisplay = document.getElementById("timeDisplay");
+const video = document.getElementById('podcastVideo');
+const subtitles = document.getElementById('subtitles');
+const timer = document.getElementById('timer');
 
-  // دالة لتغيير الفيديو مع تأثير Fade
-  function changeVideo(src) {
-    video.style.opacity = 0;
-    setTimeout(() => {
-      video.src = src;
-      video.load();
-      video.play();
-      video.style.opacity = 1;
-    }, 300);
+const script = [
+  { start:0, end:10, text:"مرحبًا بكم في بودكاست المصحح اللغوي، حيث نغوص معًا في بحر العربية، فنكتشف أسرارها، ونستعيد جمالها الضائع." },
+  { start:10, end:20, text:"يقولون: \"زلةُ لسانٍ قد تُفسِدُ ودًّا دامَ سنين\". لكن، أليس اللسان هو أداة البيان؟ فكيف يكون سببَ الهجر والخصام؟" },
+  { start:20, end:30, text:"نعم، كلمة واحدة قد تهدم ما بُنِيَ بالعمر كله، لكن الكلمة نفسها قادرة على البناء، إذا خرجت من قلبٍ صادقٍ ولسانٍ فصيحٍ جميل." },
+  { start:30, end:40, text:"في كل يومٍ، نقول مئات الكلمات، بعضها يجرح، وبعضها يُبهج، لكن أجملها تلك التي تُصلح، تُداوي، وتُعيد الإنسان إلى نفسه." },
+  { start:40, end:50, text:"في هذه الحلقة، سنتحدث عن قوة الكلمة، وكيف يمكن لِمُدقّقٍ لغويٍّ أن يُعيد للحروفِ رونقَها، وللعباراتِ معناها الحقيقي." },
+  { start:50, end:60, text:"تخيل أن أحدهم قال: \"لستُ راضيًا عنك.\" ثم عاد بعد لحظاتٍ وقال: \"كنتُ غاضبًا، وأنتَ عزيزٌ عليّ.\" كم تبدّلت المعاني بين الكلمتين!" },
+  { start:60, end:70, text:"وهكذا تظل الكلمة مِفتاح القلوب، وجسر التفاهم بين الناس. احفظ لسانك، تُحفظ لك مكانتك." },
+  { start:70, end:80, text:"لا تترك كلامك يضيع في الريح، اجعل منه نسمةَ لطفٍ تمرُّ على القلوب، فتُزهِر من جديد." },
+  { start:80, end:90, text:"كنتم مع بودكاست المصحح اللغوي، أنا محمد السخاوي، نلتقي في الحلقة القادمة — بإذن الله — مع كلمة جديدة... وحكاية جديدة." }
+];
+
+video.addEventListener('timeupdate', () => {
+  const current = video.currentTime;
+  const minutes = String(Math.floor(current/60)).padStart(2,'0');
+  const seconds = String(Math.floor(current%60)).padStart(2,'0');
+  timer.textContent = `${minutes}:${seconds}`;
+
+  const currentLine = script.find(line => current >= line.start && current < line.end);
+  if(currentLine){
+    if(subtitles.textContent !== currentLine.text){
+      subtitles.style.opacity=0;
+      setTimeout(()=>{
+        subtitles.textContent=currentLine.text;
+        subtitles.style.opacity=1;
+      },300);
+    }
+  } else {
+    subtitles.style.opacity=0;
   }
-
-  // أزرار التحكم السفلية
-  playBtn.onclick = () => { video.play(); };
-  pauseBtn.onclick = () => { video.pause(); };
-  rewindBtn.onclick = () => { video.currentTime = Math.max(video.currentTime - 5, 0); };
-
-  // أزرار الحلقات مع Fade
-  introBtn.onclick = () => { changeVideo("assets/ma3kom_podcast_ma3na.mp4"); };
-  ep1Btn.onclick = () => { changeVideo("assets/episode1.mp4"); };
-  ep2Btn.onclick = () => { changeVideo("assets/episode2.mp4"); };
-
-  // تحديث عداد الوقت
-  video.addEventListener('timeupdate', () => {
-    const formatTime = (t) => {
-      const m = Math.floor(t / 60).toString().padStart(2,'0');
-      const s = Math.floor(t % 60).toString().padStart(2,'0');
-      return `${m}:${s}`;
-    };
-    timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration || 0)}`;
-  });
 });
 </script>
 
