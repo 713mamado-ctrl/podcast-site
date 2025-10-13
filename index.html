@@ -1,67 +1,66 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>معرض حلقات بودكاست المصحح اللغوي</title>
+<title>بودكاست المصحح اللغوي</title>
 <style>
   body {
     margin:0;
-    font-family: 'Cairo', sans-serif;
-    background:#000;
-    color:#fff;
+    font-family:'Cairo', sans-serif;
+    background:#f0f8f5;
     text-align:center;
+    color:#003366;
   }
   h2 {
     margin-top:20px;
-    color:#0f0;
+    color:#006633;
   }
   .episode {
-    background:#111;
+    background:#fff;
     margin:20px auto;
     padding:15px;
-    border-radius:10px;
-    max-width:800px;
-    box-shadow:0 0 15px rgba(0,255,0,0.3);
+    border-radius:15px;
+    width:70%;
+    box-shadow:0 4px 10px rgba(0,150,0,0.2);
     position:relative;
   }
   video {
     width:100%;
     border-radius:10px;
+    box-shadow:0 0 15px rgba(0,150,0,0.3);
   }
   .controls {
     margin-top:10px;
   }
   .controls button {
-    padding:5px 15px;
+    padding:6px 12px;
     margin:0 5px;
+    font-size:1em;
     border:none;
     border-radius:5px;
     background:#4CAF50;
-    color:#fff;
-    font-size:1em;
+    color:white;
     cursor:pointer;
     transition:0.3s;
   }
-  .controls button:hover { background:#fff; color:#4CAF50; }
-  .timer {
-    margin-top:5px;
-    font-size:0.9em;
-    color:#0f0;
-    opacity:0.8;
+  .controls button:hover {
+    background:white;
+    color:#4CAF50;
+    border:1px solid #4CAF50;
   }
   #subtitles {
     position:absolute;
-    bottom:50px;
+    bottom:10%;
     left:50%;
     transform:translateX(-50%);
-    background:rgba(255,255,255,0.85);
-    color:#003366;
-    padding:10px 15px;
-    border-radius:8px;
-    max-width:90%;
+    background:rgba(255,255,255,0.9);
+    padding:8px 15px;
+    border-radius:10px;
     font-size:1.2em;
-    transition:opacity 0.5s;
+    color:#003366;
+    max-width:90%;
+    transition:opacity 0.5s ease-in-out;
     opacity:0;
   }
 </style>
@@ -71,7 +70,7 @@
 <h2>مرحبًا بكم في بودكاست المصحح اللغوي</h2>
 
 <div class="episode">
-  <video class="podcastVideo" controls>
+  <video class="podcastVideo" data-episode="1" controls>
     <source src="assets/الحلقة1.mp4" type="video/mp4">
     متصفحك لا يدعم عرض الفيديو.
   </video>
@@ -80,13 +79,11 @@
     <button class="pauseBtn">إيقاف</button>
     <button class="rewindBtn">ترجيع 5 ثواني</button>
   </div>
-  <div class="timer">00:00</div>
   <div class="subtitles"></div>
 </div>
 
-<!-- مثال حلقة ثانية -->
 <div class="episode">
-  <video class="podcastVideo" controls>
+  <video class="podcastVideo" data-episode="2" controls>
     <source src="assets/الحلقة2.mp4" type="video/mp4">
     متصفحك لا يدعم عرض الفيديو.
   </video>
@@ -95,45 +92,39 @@
     <button class="pauseBtn">إيقاف</button>
     <button class="rewindBtn">ترجيع 5 ثواني</button>
   </div>
-  <div class="timer">00:00</div>
   <div class="subtitles"></div>
 </div>
 
 <script>
-// الكود يطبق على كل فيديو في المعرض
-document.querySelectorAll('.episode').forEach(episode=>{
-  const video = episode.querySelector('.podcastVideo');
-  const playBtn = episode.querySelector('.playBtn');
-  const pauseBtn = episode.querySelector('.pauseBtn');
-  const rewindBtn = episode.querySelector('.rewindBtn');
-  const timer = episode.querySelector('.timer');
-  const subtitles = episode.querySelector('.subtitles');
+const episodes = document.querySelectorAll('.episode');
 
-  // مثال سكربت ترجمات لكل فيديو (يمكن تعديله لكل حلقة)
+episodes.forEach(ep => {
+  const video = ep.querySelector('.podcastVideo');
+  const playBtn = ep.querySelector('.playBtn');
+  const pauseBtn = ep.querySelector('.pauseBtn');
+  const rewindBtn = ep.querySelector('.rewindBtn');
+  const subtitles = ep.querySelector('.subtitles');
+
+  // أزرار التشغيل والإيقاف والترجيع
+  playBtn.addEventListener('click', ()=> video.play());
+  pauseBtn.addEventListener('click', ()=> video.pause());
+  rewindBtn.addEventListener('click', ()=> video.currentTime = Math.max(0, video.currentTime-5));
+
+  // مثال للترجمة المتزامنة (يمكن تغييره لكل حلقة)
   const script = [
-    { start:0, end:10, text:"مرحبًا بكم في بودكاست المصحح اللغوي" },
-    { start:10, end:20, text:"هذا مثال على الترجمة المتزامنة مع الصوت" }
+    {start:0, end:5, text:"مرحبًا بكم في بودكاست المصحح اللغوي."},
+    {start:5, end:10, text:"هنا نعرض محتوى الحلقة."}
   ];
-
-  playBtn.addEventListener('click', ()=>video.play());
-  pauseBtn.addEventListener('click', ()=>video.pause());
-  rewindBtn.addEventListener('click', ()=>video.currentTime = Math.max(0, video.currentTime-5));
 
   video.addEventListener('timeupdate', ()=>{
     const current = video.currentTime;
-    const minutes = String(Math.floor(current/60)).padStart(2,'0');
-    const seconds = String(Math.floor(current%60)).padStart(2,'0');
-    timer.textContent = `${minutes}:${seconds}`;
-
     const currentLine = script.find(line => current >= line.start && current < line.end);
     if(currentLine){
-      if(subtitles.textContent !== currentLine.text){
-        subtitles.style.opacity=0;
-        setTimeout(()=>{
-          subtitles.textContent=currentLine.text;
-          subtitles.style.opacity=1;
-        },200);
-      }
+      subtitles.style.opacity=0;
+      setTimeout(()=>{
+        subtitles.textContent = currentLine.text;
+        subtitles.style.opacity=1;
+      },200);
     } else {
       subtitles.style.opacity=0;
     }
