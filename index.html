@@ -7,61 +7,60 @@
 <style>
   body {
     margin:0;
-    font-family:'Cairo', sans-serif;
-    background:#f0f8f5;
+    font-family: 'Cairo', sans-serif;
+    background:#111;
     text-align:center;
-    color:#003366;
-  }
-  h2 {
-    margin-top:20px;
-    color:#006633;
+    color:#fff;
   }
   .episode {
-    background:#fff;
-    margin:20px auto;
-    padding:15px;
-    border-radius:15px;
+    margin:30px auto;
     width:70%;
-    box-shadow:0 4px 10px rgba(0,150,0,0.2);
+    background:#222;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(0,255,0,0.3);
     position:relative;
   }
   video {
     width:100%;
     border-radius:10px;
-    box-shadow:0 0 15px rgba(0,150,0,0.3);
+  }
+  .subtitles {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background:rgba(255,255,255,0.85);
+    padding:10px 20px;
+    border-radius:10px;
+    font-size:1.3em;
+    color:#003366;
+    max-width:90%;
+    transition:opacity 0.5s ease-in-out;
+    opacity:0;
   }
   .controls {
     margin-top:10px;
   }
   .controls button {
-    padding:6px 12px;
+    padding:5px 12px;
     margin:0 5px;
-    font-size:1em;
     border:none;
     border-radius:5px;
-    background:#4CAF50;
-    color:white;
     cursor:pointer;
+    font-size:1em;
+    background:#4CAF50;
+    color:#fff;
     transition:0.3s;
   }
   .controls button:hover {
-    background:white;
+    background:#fff;
     color:#4CAF50;
-    border:1px solid #4CAF50;
   }
-  #subtitles {
-    position:absolute;
-    bottom:10%;
-    left:50%;
-    transform:translateX(-50%);
-    background:rgba(255,255,255,0.9);
-    padding:8px 15px;
-    border-radius:10px;
-    font-size:1.2em;
-    color:#003366;
-    max-width:90%;
-    transition:opacity 0.5s ease-in-out;
-    opacity:0;
+  .timer {
+    margin-top:5px;
+    font-size:0.9em;
+    color:#0f0;
   }
 </style>
 </head>
@@ -69,65 +68,79 @@
 
 <h2>مرحبًا بكم في بودكاست المصحح اللغوي</h2>
 
+<!-- الحلقة الأولى -->
 <div class="episode">
-  <video class="podcastVideo" data-episode="1" controls>
+  <video class="podcastVideo" id="video1" controls>
     <source src="assets/الحلقة1.mp4" type="video/mp4">
     متصفحك لا يدعم عرض الفيديو.
   </video>
+  <div class="subtitles" id="subs1"></div>
   <div class="controls">
-    <button class="playBtn">تشغيل</button>
-    <button class="pauseBtn">إيقاف</button>
-    <button class="rewindBtn">ترجيع 5 ثواني</button>
+    <button data-action="play" data-video="video1">تشغيل</button>
+    <button data-action="pause" data-video="video1">إيقاف</button>
+    <button data-action="rewind" data-video="video1">ترجيع 5 ثواني</button>
   </div>
-  <div class="subtitles"></div>
+  <div class="timer" id="timer1">00:00</div>
 </div>
 
+<!-- الحلقة الثانية -->
 <div class="episode">
-  <video class="podcastVideo" data-episode="2" controls>
+  <video class="podcastVideo" id="video2" controls>
     <source src="assets/الحلقة2.mp4" type="video/mp4">
     متصفحك لا يدعم عرض الفيديو.
   </video>
+  <div class="subtitles" id="subs2"></div>
   <div class="controls">
-    <button class="playBtn">تشغيل</button>
-    <button class="pauseBtn">إيقاف</button>
-    <button class="rewindBtn">ترجيع 5 ثواني</button>
+    <button data-action="play" data-video="video2">تشغيل</button>
+    <button data-action="pause" data-video="video2">إيقاف</button>
+    <button data-action="rewind" data-video="video2">ترجيع 5 ثواني</button>
   </div>
-  <div class="subtitles"></div>
+  <div class="timer" id="timer2">00:00</div>
 </div>
 
 <script>
-const episodes = document.querySelectorAll('.episode');
+const episodes = [
+  { videoId:'video1', subsId:'subs1', timerId:'timer1', script:[
+      {start:0,end:10,text:"مرحبًا بكم في بودكاست المصحح اللغوي، حيث نغوص معًا في بحر العربية..."},
+      {start:10,end:20,text:"يقولون: زلةُ لسانٍ قد تُفسِدُ ودًّا دامَ سنين..."},
+      {start:20,end:30,text:"نعم، كلمة واحدة قد تهدم ما بُنِيَ بالعمر كله..."}
+  ]},
+  { videoId:'video2', subsId:'subs2', timerId:'timer2', script:[
+      {start:0,end:10,text:"مرحبًا في الحلقة الثانية، سنتحدث عن التشكيل وأهميته..."},
+      {start:10,end:20,text:"مثال على الضم والفتح في الكلمات..."},
+      {start:20,end:30,text:"كيف يُغيّر التشكيل معنى الكلمة..."}
+  ]}
+];
 
-episodes.forEach(ep => {
-  const video = ep.querySelector('.podcastVideo');
-  const playBtn = ep.querySelector('.playBtn');
-  const pauseBtn = ep.querySelector('.pauseBtn');
-  const rewindBtn = ep.querySelector('.rewindBtn');
-  const subtitles = ep.querySelector('.subtitles');
+episodes.forEach(ep=>{
+  const video = document.getElementById(ep.videoId);
+  const subs = document.getElementById(ep.subsId);
+  const timer = document.getElementById(ep.timerId);
 
-  // أزرار التشغيل والإيقاف والترجيع
-  playBtn.addEventListener('click', ()=> video.play());
-  pauseBtn.addEventListener('click', ()=> video.pause());
-  rewindBtn.addEventListener('click', ()=> video.currentTime = Math.max(0, video.currentTime-5));
-
-  // مثال للترجمة المتزامنة (يمكن تغييره لكل حلقة)
-  const script = [
-    {start:0, end:5, text:"مرحبًا بكم في بودكاست المصحح اللغوي."},
-    {start:5, end:10, text:"هنا نعرض محتوى الحلقة."}
-  ];
-
-  video.addEventListener('timeupdate', ()=>{
+  // تحديث الوقت والترجمة
+  video.addEventListener('timeupdate',()=>{
     const current = video.currentTime;
-    const currentLine = script.find(line => current >= line.start && current < line.end);
-    if(currentLine){
-      subtitles.style.opacity=0;
-      setTimeout(()=>{
-        subtitles.textContent = currentLine.text;
-        subtitles.style.opacity=1;
-      },200);
-    } else {
-      subtitles.style.opacity=0;
-    }
+    const minutes = String(Math.floor(current/60)).padStart(2,'0');
+    const seconds = String(Math.floor(current%60)).padStart(2,'0');
+    timer.textContent = `${minutes}:${seconds}`;
+
+    const line = ep.script.find(s=>current>=s.start && current<s.end);
+    if(line){
+      if(subs.textContent!==line.text){
+        subs.style.opacity=0;
+        setTimeout(()=>{ subs.textContent=line.text; subs.style.opacity=1; },200);
+      }
+    } else { subs.style.opacity=0; }
+  });
+});
+
+// التحكم في الأزرار
+document.querySelectorAll('.controls button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const video = document.getElementById(btn.dataset.video);
+    if(btn.dataset.action==='play') video.play();
+    else if(btn.dataset.action==='pause') video.pause();
+    else if(btn.dataset.action==='rewind') video.currentTime = Math.max(video.currentTime-5,0);
   });
 });
 </script>
