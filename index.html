@@ -2,66 +2,81 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>بودكاست المصحح اللغوي</title>
+<title>🎙️ بودكاست المصحح اللغوي</title>
 <link rel="stylesheet" href="css/style.css">
 <style>
-  body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
-  h1 { color: #333; text-align: center; }
-  .episode { background: #fff; padding: 15px; margin: 15px auto; border-radius: 10px; max-width: 700px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-  .ep-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
-  .ep-desc { margin-bottom: 10px; }
-  video { width: 100%; border-radius: 8px; margin-top: 10px; display: none; }
-  .btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
-  button, a.btn { flex: 1; padding: 8px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-  button:hover, a.btn:hover { transform: scale(1.05); opacity: 0.9; }
-  .play-video { background: #2196F3; color: #fff; }
-  .download-video { background: #4CAF50; color: #fff; text-decoration: none; text-align:center; }
-  .play-now { background: #607D8B; color: #fff; }
-  .youtube { background: #E91E63; color: #fff; text-decoration: none; text-align:center; }
+  body {
+    font-family: "Tajawal", Arial, sans-serif;
+    background-color: #f8f8f8;
+    text-align: center;
+    padding: 30px;
+    direction: rtl;
+  }
+  h1 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  p {
+    color: #555;
+  }
+  .player-container {
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    max-width: 700px;
+    margin: 30px auto;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  }
+  video {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  button, a.download-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  button:hover, a.download-btn:hover {
+    background-color: #0056b3;
+  }
 </style>
 </head>
 <body>
 
-<h1>بودكاست المصحح اللغوي</h1>
-<p>مرحبًا بكم في صفحة البودكاست! إليكم الحلقة الأولى:</p>
+<h1>🎧 بودكاست المصحح اللغوي</h1>
+<p>مرحبًا بكم! استمتعوا بأولى حلقاتنا الشيقة 👇</p>
 
-<div class="episode">
-  <div class="ep-title">الحلقة الأولى</div>
-  <div class="ep-desc">ومعنا المصحح اللغوي</div>
-
-  <!-- الأزرار الأربعة فوق الفيديو -->
-  <div class="btn-group">
-    <button id="playVideo" class="play-video">تشغيل الفيديو</button>
-    <a href="assets/ma3kom_podcast_ma3na.mp4" download class="btn download-video">تحميل الفيديو</a>
-  </div>
-
-  <!-- مربع الفيديو -->
-  <video id="podcastVideo" controls>
+<div class="player-container">
+  <video id="videoPlayer" controls>
     <source src="assets/ma3kom_podcast_ma3na.mp4" type="video/mp4">
     متصفحك لا يدعم تشغيل الفيديو.
   </video>
 
-  <!-- الأزرار السفلية -->
-  <div class="btn-group" style="margin-top:10px;">
-    <button id="playNow" class="play-now">تشغيل الآن</button>
-    <a href="https://youtu.be/oxSD1S2nq8g" target="_blank" class="btn youtube">مشاهدة على اليوتيوب</a>
+  <div class="buttons">
+    <button id="playVideo">تشغيل الفيديو 🎬</button>
+    <button id="pauseVideo">إيقاف مؤقت ⏸️</button>
+    <a href="assets/ma3kom_podcast_ma3na.mp4" download class="download-btn">تحميل الفيديو ⬇️</a>
+    <a href="https://youtu.be/oxSD1S2nq8g" target="_blank" class="download-btn">مشاهدة على اليوتيوب ▶️</a>
   </div>
 </div>
 
 <script>
-window.addEventListener('DOMContentLoaded', function() {
-  const video = document.getElementById('podcastVideo');
-
-  document.getElementById('playVideo').addEventListener('click', function() {
-    video.style.display = 'block';
-    video.play();
-  });
-
-  document.getElementById('playNow').addEventListener('click', function() {
-    video.style.display = 'block';
-    video.play();
-  });
-});
+  const video = document.getElementById('videoPlayer');
+  document.getElementById('playVideo').addEventListener('click', () => video.play());
+  document.getElementById('pauseVideo').addEventListener('click', () => video.pause());
 </script>
 
 </body>
