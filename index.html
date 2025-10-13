@@ -11,9 +11,9 @@
     padding: 0;
   }
 
+  /* الترحيب الملون */
   h1 {
     text-align: center;
-    color: #333;
     margin-top: 25px;
   }
 
@@ -41,13 +41,17 @@
     border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
   }
 
   .sidebar button:hover {
     background: #4CAF50;
     color: white;
     border-color: #4CAF50;
+  }
+
+  .sidebar button:active {
+    transform: scale(1.05);
   }
 
   /* قسم الفيديو */
@@ -58,18 +62,25 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     text-align: center;
     width: 700px;
+    position: relative;
   }
 
   video {
     width: 100%;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    opacity: 1;
+    transition: opacity 0.5s ease;
   }
 
   /* عداد الوقت */
   .time-display {
-    font-size: 14px;
-    margin-bottom: 15px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
   }
 
   /* الأزرار السفلية تحت الفيديو */
@@ -87,7 +98,7 @@
     padding: 5px 10px;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s;
     font-size: 14px;
   }
 
@@ -95,11 +106,22 @@
     background: white;
     color: #4CAF50;
   }
+
+  .controls button:active {
+    transform: scale(1.05);
+  }
 </style>
 </head>
 <body>
 
-<h1>مرحبًا بكم في بودكاست المصحح اللغوي</h1>
+<h1>
+  <span style="color:#e74c3c;">مرحبًا</span>
+  <span style="color:#f1c40f;">بكم</span>
+  <span style="color:#2ecc71;">في</span>
+  <span style="color:#3498db;">بودكاست</span>
+  <span style="color:#9b59b6;">المصحح</span>
+  <span style="color:#e67e22;">اللغوي</span>
+</h1>
 
 <div class="container">
   <!-- الأزرار الجانبية العليا -->
@@ -116,7 +138,7 @@
       متصفحك لا يدعم تشغيل الفيديو.
     </video>
 
-    <!-- عداد الوقت -->
+    <!-- عداد الوقت في أقصى اليمين -->
     <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
 
     <!-- الأزرار السفلية تحت الفيديو -->
@@ -139,21 +161,32 @@ document.addEventListener("DOMContentLoaded", () => {
   const ep2Btn = document.getElementById("ep2Btn");
   const timeDisplay = document.getElementById("timeDisplay");
 
+  // دالة لتغيير الفيديو مع تأثير Fade
+  function changeVideo(src) {
+    video.style.opacity = 0;
+    setTimeout(() => {
+      video.src = src;
+      video.load();
+      video.play();
+      video.style.opacity = 1;
+    }, 300);
+  }
+
   // أزرار التحكم السفلية
   playBtn.onclick = () => { video.play(); };
   pauseBtn.onclick = () => { video.pause(); };
   rewindBtn.onclick = () => { video.currentTime = Math.max(video.currentTime - 5, 0); };
 
-  // أزرار الحلقات
-  introBtn.onclick = () => { video.src = "assets/ma3kom_podcast_ma3na.mp4"; video.load(); video.play(); };
-  ep1Btn.onclick = () => { video.src = "assets/episode1.mp4"; video.load(); video.play(); };
-  ep2Btn.onclick = () => { video.src = "assets/episode2.mp4"; video.load(); video.play(); };
+  // أزرار الحلقات مع Fade
+  introBtn.onclick = () => { changeVideo("assets/ma3kom_podcast_ma3na.mp4"); };
+  ep1Btn.onclick = () => { changeVideo("assets/episode1.mp4"); };
+  ep2Btn.onclick = () => { changeVideo("assets/episode2.mp4"); };
 
   // تحديث عداد الوقت
   video.addEventListener('timeupdate', () => {
     const formatTime = (t) => {
-      const m = Math.floor(t / 60).toString().padStart(2, '0');
-      const s = Math.floor(t % 60).toString().padStart(2, '0');
+      const m = Math.floor(t / 60).toString().padStart(2,'0');
+      const s = Math.floor(t % 60).toString().padStart(2,'0');
       return `${m}:${s}`;
     };
     timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration || 0)}`;
