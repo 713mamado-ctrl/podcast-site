@@ -5,7 +5,7 @@
 <title>بودكاست المصحح اللغوي</title>
 <style>
   body {
-    font-family: "Cairo", sans-serif;
+    font-family: Arial, sans-serif;
     background: #f9f9f9;
     margin: 0;
     padding: 0;
@@ -30,7 +30,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin-right: 15px; /* تبعدها عن الإطار */
+    margin-right: 15px; /* بعيد عن الإطار */
   }
 
   .sidebar button {
@@ -68,20 +68,23 @@
     display: flex;
     justify-content: center;
     gap: 10px;
+    margin-bottom: 15px;
   }
 
   .controls button {
-    background: #4CAF50;
+    background: #4CAF50; /* أخضر افتراضي */
     color: white;
     border: none;
     padding: 10px 16px;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s;
   }
 
   .controls button:hover {
-    background: #2e7d32;
+    background: white; /* يتحول للأبيض عند المرور */
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
   }
 </style>
 </head>
@@ -90,18 +93,21 @@
 <h1>مرحبًا بكم في بودكاست المصحح اللغوي</h1>
 
 <div class="container">
+  <!-- الأزرار الجانبية العليا -->
   <div class="sidebar">
     <button id="introBtn">الافتتاح</button>
     <button id="ep1Btn">الحلقة الأولى</button>
     <button id="ep2Btn">الحلقة الثانية</button>
   </div>
 
+  <!-- قسم الفيديو -->
   <div class="video-section">
     <video id="mainVideo">
       <source src="assets/ma3kom_podcast_ma3na.mp4" type="video/mp4">
       متصفحك لا يدعم تشغيل الفيديو.
     </video>
 
+    <!-- الأزرار السفلية تحت الفيديو -->
     <div class="controls">
       <button id="playBtn">تشغيل</button>
       <button id="pauseBtn">إيقاف</button>
@@ -116,36 +122,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const playBtn = document.getElementById("playBtn");
   const pauseBtn = document.getElementById("pauseBtn");
   const rewindBtn = document.getElementById("rewindBtn");
-
   const introBtn = document.getElementById("introBtn");
   const ep1Btn = document.getElementById("ep1Btn");
   const ep2Btn = document.getElementById("ep2Btn");
 
-  // أزرار التحكم
-  playBtn.onclick = () => video.play();
-  pauseBtn.onclick = () => video.pause();
-  rewindBtn.onclick = () => {
-    video.currentTime = Math.max(video.currentTime - 5, 0);
-  };
+  // صوت خفيف عند الضغط
+  const clickSound = new Audio('https://freesound.org/data/previews/66/66717_931655-lq.mp3');
 
-  // أزرار الحلقات
-  introBtn.onclick = () => {
-    video.src = "assets/ma3kom_podcast_ma3na.mp4";
-    video.load();
-    video.play();
-  };
+  // أزرار التحكم السفلية
+  playBtn.onclick = () => { clickSound.play(); video.play(); };
+  pauseBtn.onclick = () => { clickSound.play(); video.pause(); };
+  rewindBtn.onclick = () => { clickSound.play(); video.currentTime = Math.max(video.currentTime - 5, 0); };
 
-  ep1Btn.onclick = () => {
-    video.src = "assets/episode1.mp4";
-    video.load();
-    video.play();
-  };
-
-  ep2Btn.onclick = () => {
-    video.src = "assets/episode2.mp4";
-    video.load();
-    video.play();
-  };
+  // الأزرار الجانبية العليا لتغيير الحلقات
+  introBtn.onclick = () => { clickSound.play(); video.src = "assets/ma3kom_podcast_ma3na.mp4"; video.load(); video.play(); };
+  ep1Btn.onclick = () => { clickSound.play(); video.src = "assets/episode1.mp4"; video.load(); video.play(); };
+  ep2Btn.onclick = () => { clickSound.play(); video.src = "assets/episode2.mp4"; video.load(); video.play(); };
 });
 </script>
 
