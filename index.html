@@ -1,28 +1,32 @@
-
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>بودكاست الحلقة الأولى</title>
+<title>بودكاست المصحح اللغوي - المعرض</title>
 <style>
   body {
+    margin:0;
     font-family: 'Cairo', sans-serif;
-    background:#f0f0f0;
-    color:#000;
+    background:#111; /* خلفية مظلمة */
+    color:#fff;
     text-align:center;
-    padding:20px;
+  }
+  h1 {
+    margin-top:20px;
+    color:#0f0;
   }
   .episode {
-    background:#fff;
-    border-radius:10px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    background:#222;
+    margin:20px auto;
     padding:15px;
-    margin-bottom:30px;
+    border-radius:10px;
+    width:80%;
+    box-shadow:0 0 15px rgba(0,255,0,0.3);
     position:relative;
   }
   video {
-    width:80%;
+    width:100%;
     border-radius:10px;
   }
   .controls {
@@ -30,82 +34,93 @@
   }
   .controls button {
     padding:5px 12px;
-    margin:2px;
+    margin:0 5px;
     border:none;
     border-radius:5px;
-    background:#4CAF50;
-    color:#fff;
+    background:#0f0;
+    color:#000;
     cursor:pointer;
     transition:0.3s;
   }
   .controls button:hover {
     background:#fff;
-    color:#4CAF50;
-    border:1px solid #4CAF50;
-  }
-  .subtitles {
-    margin-top:10px;
-    background:#fff;
-    color:#003366;
-    display:inline-block;
-    padding:5px 15px;
-    border-radius:5px;
-    max-width:80%;
-    min-height:40px;
+    color:#0f0;
   }
   .timer {
     margin-top:5px;
+    color:#0f0;
     font-size:0.9em;
-    color:#0a0;
+  }
+  #subtitles {
+    position:absolute;
+    bottom:60px;
+    left:50%;
+    transform:translateX(-50%);
+    background:rgba(255,255,255,0.85);
+    padding:10px 20px;
+    border-radius:10px;
+    font-size:1em;
+    color:#003366;
+    max-width:90%;
+    transition:opacity 0.5s ease-in-out;
+    opacity:0;
   }
 </style>
 </head>
 <body>
 
-<h2>مرحبًا بكم في بودكاست المصحح اللغوي</h2>
+<h1>مرحبًا بكم في بودكاست المصحح اللغوي</h1>
 
+<!-- الحلقة الأولى -->
 <div class="episode">
-  <h3>الحلقة الأولى</h3>
-  <video src="assets/الحلقة1.mp4" id="video1" controls></video>
+  <video id="video1" src="assets/الحلقة1.mp4" type="video/mp4"></video>
+  <div id="subtitles1"></div>
   <div class="controls">
-    <button onclick="playVideo()">تشغيل</button>
-    <button onclick="pauseVideo()">إيقاف</button>
-    <button onclick="rewindVideo()">ترجيع 5 ثواني</button>
+    <button onclick="playVideo('video1')">تشغيل</button>
+    <button onclick="pauseVideo('video1')">إيقاف</button>
+    <button onclick="rewindVideo('video1')">ترجيع 5 ثواني</button>
   </div>
-  <div class="subtitles" id="sub1">...</div>
-  <div class="timer" id="time1">00:00</div>
+  <div class="timer" id="timer1">00:00</div>
+</div>
+
+<!-- الحلقة الثانية -->
+<div class="episode">
+  <video id="video2" src="assets/الحلقة2.mp4" type="video/mp4"></video>
+  <div id="subtitles2"></div>
+  <div class="controls">
+    <button onclick="playVideo('video2')">تشغيل</button>
+    <button onclick="pauseVideo('video2')">إيقاف</button>
+    <button onclick="rewindVideo('video2')">ترجيع 5 ثواني</button>
+  </div>
+  <div class="timer" id="timer2">00:00</div>
 </div>
 
 <script>
-const video = document.getElementById('video1');
-const subtitles = document.getElementById('sub1');
-const timer = document.getElementById('time1');
+// الوظائف الأساسية لكل فيديو
+function playVideo(id){
+  document.getElementById(id).play();
+}
+function pauseVideo(id){
+  document.getElementById(id).pause();
+}
+function rewindVideo(id){
+  const v = document.getElementById(id);
+  v.currentTime = Math.max(0, v.currentTime - 5);
+}
 
-const script = [
-  { start:0, end:10, text:"مرحبًا بكم في بودكاست المصحح اللغوي، حيث نغوص معًا في بحر العربية، فنكتشف أسرارها، ونستعيد جمالها الضائع." },
-  { start:10, end:20, text:"يقولون: \"زلةُ لسانٍ قد تُفسِدُ ودًّا دامَ سنين\". لكن، أليس اللسان هو أداة البيان؟ فكيف يكون سببَ الهجر والخصام؟" },
-  { start:20, end:30, text:"نعم، كلمة واحدة قد تهدم ما بُنِيَ بالعمر كله، لكن الكلمة نفسها قادرة على البناء، إذا خرجت من قلبٍ صادقٍ ولسانٍ فصيحٍ جميل." },
-  { start:30, end:40, text:"في كل يومٍ، نقول مئات الكلمات، بعضها يجرح، وبعضها يُبهج، لكن أجملها تلك التي تُصلح، تُداوي، وتُعيد الإنسان إلى نفسه." },
-  { start:40, end:50, text:"في هذه الحلقة، سنتحدث عن قوة الكلمة، وكيف يمكن لِمُدقّقٍ لغويٍّ أن يُعيد للحروفِ رونقَها، وللعباراتِ معناها الحقيقي." },
-  { start:50, end:60, text:"تخيل أن أحدهم قال: \"لستُ راضيًا عنك.\" ثم عاد بعد لحظاتٍ وقال: \"كنتُ غاضبًا، وأنتَ عزيزٌ عليّ.\" كم تبدّلت المعاني بين الكلمتين!" },
-  { start:60, end:70, text:"وهكذا تظل الكلمة مِفتاح القلوب، وجسر التفاهم بين الناس. احفظ لسانك، تُحفظ لك مكانتك." },
-  { start:70, end:80, text:"لا تترك كلامك يضيع في الريح، اجعل منه نسمةَ لطفٍ تمرُّ على القلوب، فتُزهِر من جديد." },
-  { start:80, end:90, text:"كنتم مع بودكاست المصحح اللغوي، أنا محمد السخاوي، نلتقي في الحلقة القادمة — بإذن الله — مع كلمة جديدة... وحكاية جديدة." }
-];
+// تحديث العداد لكل فيديو
+function setupTimer(videoId, timerId){
+  const video = document.getElementById(videoId);
+  const timer = document.getElementById(timerId);
+  video.addEventListener('timeupdate', ()=>{
+    const m = String(Math.floor(video.currentTime/60)).padStart(2,'0');
+    const s = String(Math.floor(video.currentTime%60)).padStart(2,'0');
+    timer.textContent = `${m}:${s}`;
+  });
+}
 
-function playVideo(){ video.play(); }
-function pauseVideo(){ video.pause(); }
-function rewindVideo(){ video.currentTime = Math.max(0, video.currentTime - 5); }
-
-video.addEventListener('timeupdate', () => {
-  const t = video.currentTime;
-  const minutes = String(Math.floor(t/60)).padStart(2,'0');
-  const seconds = String(Math.floor(t%60)).padStart(2,'0');
-  timer.textContent = minutes + ":" + seconds;
-
-  const line = script.find(s => t>=s.start && t<s.end);
-  subtitles.textContent = line ? line.text : '';
-});
+setupTimer('video1','timer1');
+setupTimer('video2','timer2');
 </script>
 
 </body>
