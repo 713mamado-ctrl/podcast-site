@@ -1,103 +1,3 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>بودكاست المصحح اللغوي</title>
-<style>
-  body {
-    margin:0;
-    font-family: 'Cairo', sans-serif;
-    background:#111;
-    text-align:center;
-    color:#fff;
-  }
-  .episode {
-    margin:30px auto;
-    width:70%;
-    background:#222;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 0 20px rgba(0,255,0,0.3);
-    position:relative;
-  }
-  video {
-    width:100%;
-    border-radius:10px;
-  }
-  .subtitles {
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-    background:rgba(255,255,255,0.85);
-    padding:10px 20px;
-    border-radius:10px;
-    font-size:1.3em;
-    color:#003366;
-    max-width:90%;
-    transition:opacity 0.5s ease-in-out;
-    opacity:0;
-  }
-  .controls {
-    margin-top:10px;
-  }
-  .controls button {
-    padding:5px 12px;
-    margin:0 5px;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
-    font-size:1em;
-    background:#4CAF50;
-    color:#fff;
-    transition:0.3s;
-  }
-  .controls button:hover {
-    background:#fff;
-    color:#4CAF50;
-  }
-  .timer {
-    margin-top:5px;
-    font-size:0.9em;
-    color:#0f0;
-  }
-</style>
-</head>
-<body>
-
-<h2>مرحبًا بكم في بودكاست المصحح اللغوي</h2>
-
-<!-- الحلقة الأولى -->
-<div class="episode">
-  <video class="podcastVideo" id="video1" controls>
-    <source src="assets/الحلقة1.mp4" type="video/mp4">
-    متصفحك لا يدعم عرض الفيديو.
-  </video>
-  <div class="subtitles" id="subs1"></div>
-  <div class="controls">
-    <button data-action="play" data-video="video1">تشغيل</button>
-    <button data-action="pause" data-video="video1">إيقاف</button>
-    <button data-action="rewind" data-video="video1">ترجيع 5 ثواني</button>
-  </div>
-  <div class="timer" id="timer1">00:00</div>
-</div>
-
-<!-- الحلقة الثانية -->
-<div class="episode">
-  <video class="podcastVideo" id="video2" controls>
-    <source src="assets/الحلقة2.mp4" type="video/mp4">
-    متصفحك لا يدعم عرض الفيديو.
-  </video>
-  <div class="subtitles" id="subs2"></div>
-  <div class="controls">
-    <button data-action="play" data-video="video2">تشغيل</button>
-    <button data-action="pause" data-video="video2">إيقاف</button>
-    <button data-action="rewind" data-video="video2">ترجيع 5 ثواني</button>
-  </div>
-  <div class="timer" id="timer2">00:00</div>
-</div>
-
 <script>
 const episodes = [
   { videoId:'video1', subsId:'subs1', timerId:'timer1', script:[
@@ -112,12 +12,14 @@ const episodes = [
   ]}
 ];
 
+const videos = [];
+
 episodes.forEach(ep=>{
   const video = document.getElementById(ep.videoId);
   const subs = document.getElementById(ep.subsId);
   const timer = document.getElementById(ep.timerId);
+  videos.push(video);
 
-  // تحديث الوقت والترجمة
   video.addEventListener('timeupdate',()=>{
     const current = video.currentTime;
     const minutes = String(Math.floor(current/60)).padStart(2,'0');
@@ -134,16 +36,20 @@ episodes.forEach(ep=>{
   });
 });
 
-// التحكم في الأزرار
+// التحكم في الأزرار + منع تشغيل أكثر من فيديو
 document.querySelectorAll('.controls button').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const video = document.getElementById(btn.dataset.video);
-    if(btn.dataset.action==='play') video.play();
+
+    // عند تشغيل أي فيديو، نوقف الباقيين
+    if(btn.dataset.action==='play') {
+      videos.forEach(v=>{
+        if(v!==video && !v.paused) v.pause();
+      });
+      video.play();
+    }
     else if(btn.dataset.action==='pause') video.pause();
     else if(btn.dataset.action==='rewind') video.currentTime = Math.max(video.currentTime-5,0);
   });
 });
 </script>
-
-</body>
-</html>
