@@ -1,55 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بودكاست الحلقة الأولى</title>
+<style>
+  body {
+    font-family: 'Cairo', sans-serif;
+    background:#f0f0f0;
+    color:#000;
+    text-align:center;
+    padding:20px;
+  }
+  .episode {
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    padding:15px;
+    margin-bottom:30px;
+    position:relative;
+  }
+  video {
+    width:80%;
+    border-radius:10px;
+  }
+  .controls {
+    margin-top:10px;
+  }
+  .controls button {
+    padding:5px 12px;
+    margin:2px;
+    border:none;
+    border-radius:5px;
+    background:#4CAF50;
+    color:#fff;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  .controls button:hover {
+    background:#fff;
+    color:#4CAF50;
+    border:1px solid #4CAF50;
+  }
+  .subtitles {
+    margin-top:10px;
+    background:#fff;
+    color:#003366;
+    display:inline-block;
+    padding:5px 15px;
+    border-radius:5px;
+    max-width:80%;
+    min-height:40px;
+  }
+  .timer {
+    margin-top:5px;
+    font-size:0.9em;
+    color:#0a0;
+  }
+</style>
+</head>
+<body>
+
+<h2>مرحبًا بكم في بودكاست المصحح اللغوي</h2>
+
+<div class="episode">
+  <h3>الحلقة الأولى</h3>
+  <video src="assets/الحلقة1.mp4" id="video1" controls></video>
+  <div class="controls">
+    <button onclick="playVideo()">تشغيل</button>
+    <button onclick="pauseVideo()">إيقاف</button>
+    <button onclick="rewindVideo()">ترجيع 5 ثواني</button>
+  </div>
+  <div class="subtitles" id="sub1">...</div>
+  <div class="timer" id="time1">00:00</div>
+</div>
+
 <script>
-const episodes = [
-  { videoId:'video1', subsId:'subs1', timerId:'timer1', script:[
-      {start:0,end:10,text:"مرحبًا بكم في بودكاست المصحح اللغوي، حيث نغوص معًا في بحر العربية..."},
-      {start:10,end:20,text:"يقولون: زلةُ لسانٍ قد تُفسِدُ ودًّا دامَ سنين..."},
-      {start:20,end:30,text:"نعم، كلمة واحدة قد تهدم ما بُنِيَ بالعمر كله..."}
-  ]},
-  { videoId:'video2', subsId:'subs2', timerId:'timer2', script:[
-      {start:0,end:10,text:"مرحبًا في الحلقة الثانية، سنتحدث عن التشكيل وأهميته..."},
-      {start:10,end:20,text:"مثال على الضم والفتح في الكلمات..."},
-      {start:20,end:30,text:"كيف يُغيّر التشكيل معنى الكلمة..."}
-  ]}
+const video = document.getElementById('video1');
+const subtitles = document.getElementById('sub1');
+const timer = document.getElementById('time1');
+
+const script = [
+  { start:0, end:10, text:"مرحبًا بكم في بودكاست المصحح اللغوي، حيث نغوص معًا في بحر العربية، فنكتشف أسرارها، ونستعيد جمالها الضائع." },
+  { start:10, end:20, text:"يقولون: \"زلةُ لسانٍ قد تُفسِدُ ودًّا دامَ سنين\". لكن، أليس اللسان هو أداة البيان؟ فكيف يكون سببَ الهجر والخصام؟" },
+  { start:20, end:30, text:"نعم، كلمة واحدة قد تهدم ما بُنِيَ بالعمر كله، لكن الكلمة نفسها قادرة على البناء، إذا خرجت من قلبٍ صادقٍ ولسانٍ فصيحٍ جميل." },
+  { start:30, end:40, text:"في كل يومٍ، نقول مئات الكلمات، بعضها يجرح، وبعضها يُبهج، لكن أجملها تلك التي تُصلح، تُداوي، وتُعيد الإنسان إلى نفسه." },
+  { start:40, end:50, text:"في هذه الحلقة، سنتحدث عن قوة الكلمة، وكيف يمكن لِمُدقّقٍ لغويٍّ أن يُعيد للحروفِ رونقَها، وللعباراتِ معناها الحقيقي." },
+  { start:50, end:60, text:"تخيل أن أحدهم قال: \"لستُ راضيًا عنك.\" ثم عاد بعد لحظاتٍ وقال: \"كنتُ غاضبًا، وأنتَ عزيزٌ عليّ.\" كم تبدّلت المعاني بين الكلمتين!" },
+  { start:60, end:70, text:"وهكذا تظل الكلمة مِفتاح القلوب، وجسر التفاهم بين الناس. احفظ لسانك، تُحفظ لك مكانتك." },
+  { start:70, end:80, text:"لا تترك كلامك يضيع في الريح، اجعل منه نسمةَ لطفٍ تمرُّ على القلوب، فتُزهِر من جديد." },
+  { start:80, end:90, text:"كنتم مع بودكاست المصحح اللغوي، أنا محمد السخاوي، نلتقي في الحلقة القادمة — بإذن الله — مع كلمة جديدة... وحكاية جديدة." }
 ];
 
-const videos = [];
+function playVideo(){ video.play(); }
+function pauseVideo(){ video.pause(); }
+function rewindVideo(){ video.currentTime = Math.max(0, video.currentTime - 5); }
 
-episodes.forEach(ep=>{
-  const video = document.getElementById(ep.videoId);
-  const subs = document.getElementById(ep.subsId);
-  const timer = document.getElementById(ep.timerId);
-  videos.push(video);
+video.addEventListener('timeupdate', () => {
+  const t = video.currentTime;
+  const minutes = String(Math.floor(t/60)).padStart(2,'0');
+  const seconds = String(Math.floor(t%60)).padStart(2,'0');
+  timer.textContent = minutes + ":" + seconds;
 
-  video.addEventListener('timeupdate',()=>{
-    const current = video.currentTime;
-    const minutes = String(Math.floor(current/60)).padStart(2,'0');
-    const seconds = String(Math.floor(current%60)).padStart(2,'0');
-    timer.textContent = `${minutes}:${seconds}`;
-
-    const line = ep.script.find(s=>current>=s.start && current<s.end);
-    if(line){
-      if(subs.textContent!==line.text){
-        subs.style.opacity=0;
-        setTimeout(()=>{ subs.textContent=line.text; subs.style.opacity=1; },200);
-      }
-    } else { subs.style.opacity=0; }
-  });
-});
-
-// التحكم في الأزرار + منع تشغيل أكثر من فيديو
-document.querySelectorAll('.controls button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const video = document.getElementById(btn.dataset.video);
-
-    // عند تشغيل أي فيديو، نوقف الباقيين
-    if(btn.dataset.action==='play') {
-      videos.forEach(v=>{
-        if(v!==video && !v.paused) v.pause();
-      });
-      video.play();
-    }
-    else if(btn.dataset.action==='pause') video.pause();
-    else if(btn.dataset.action==='rewind') video.currentTime = Math.max(video.currentTime-5,0);
-  });
+  const line = script.find(s => t>=s.start && t<s.end);
+  subtitles.textContent = line ? line.text : '';
 });
 </script>
+
+</body>
+</html>
