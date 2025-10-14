@@ -66,67 +66,37 @@
 
 <script>
 /* ======= إدارة تشغيل واحد فقط ======= */
-// يوقف كل الفيديوهات ما عدا المعرف الممرّر
 function pauseAllExcept(activeId) {
   const vids = document.querySelectorAll('video');
-  vids.forEach(v => {
-    if (v.id !== activeId) {
-      try { v.pause(); } catch(e){ console.log(e); }
-    }
-  });
+  vids.forEach(v => { if(v.id !== activeId) try{ v.pause(); }catch(e){} });
 }
 
-/* وظائف تشغيل أساسية — الآن تستدعي pauseAllExcept */
-function playVideo(id) {
-  pauseAllExcept(id);
-  const video = document.getElementById(id);
-  video.play();
-}
+function playVideo(id) { pauseAllExcept(id); document.getElementById(id).play(); }
 function pauseVideo(id) { document.getElementById(id).pause(); }
-function rewindVideo(id) {
-  const v = document.getElementById(id);
-  v.currentTime = Math.max(0, v.currentTime - 5);
+function rewindVideo(id) { const v=document.getElementById(id); v.currentTime=Math.max(0,v.currentTime-5); }
+function forwardVideo(id) { const v=document.getElementById(id); v.currentTime=Math.min(v.duration||Infinity,v.currentTime+5); }
+function setVolume(id,val){ document.getElementById(id).volume=val; }
+function toggleFullScreen(id){
+  const video=document.getElementById(id);
+  if(video.requestFullscreen) video.requestFullscreen();
+  else if(video.webkitRequestFullscreen) video.webkitRequestFullscreen();
 }
-function forwardVideo(id) {
-  const v = document.getElementById(id);
-  v.currentTime = Math.min(v.duration || Infinity, v.currentTime + 5);
-}
-function setVolume(id, val) { document.getElementById(id).volume = val; }
-function toggleFullScreen(id) {
-  const video = document.getElementById(id);
-  if (video.requestFullscreen) video.requestFullscreen();
-  else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
-}
-function toggleMute(videoId, btnId) {
-  const video = document.getElementById(videoId);
-  const btn = document.getElementById(btnId);
-  video.muted = !video.muted;
-  btn.textContent = video.muted ? "🔇" : "🔊";
+function toggleMute(videoId,btnId){ const video=document.getElementById(videoId); const btn=document.getElementById(btnId); video.muted=!video.muted; btn.textContent=video.muted?"🔇":"🔊"; }
+
+function setupTimer(videoId,timerId){
+  const video=document.getElementById(videoId);
+  const timer=document.getElementById(timerId);
+  video.addEventListener("timeupdate",()=>{ const m=String(Math.floor(video.currentTime/60)).padStart(2,"0"); const s=String(Math.floor(video.currentTime%60)).padStart(2,"0"); timer.textContent=`${m}:${s}`; });
 }
 
-/* العداد لكل فيديو */
-function setupTimer(videoId, timerId) {
-  const video = document.getElementById(videoId);
-  const timer = document.getElementById(timerId);
-  video.addEventListener("timeupdate", () => {
-    const m = String(Math.floor(video.currentTime / 60)).padStart(2, "0");
-    const s = String(Math.floor(video.currentTime % 60)).padStart(2, "0");
-    timer.textContent = `${m}:${s}`;
-  });
+/* عندما يضغط المستخدم على زر الانتقال للحلقة */
+function scrollToEpisode(id){
+  pauseAllExcept(null); // إيقاف كل الفيديوهات فورًا
+  document.getElementById(id).scrollIntoView({behavior:"smooth", block:"center"});
 }
 
-/* لو أي فيديو بدأ تشغيل بأي طريقة (حتى لو ضغط المستخدم على الفيديو نفسه),
-   نوقف الباقي تلقائيًا — هذا يغطي كل حالات التشغيل */
-document.querySelectorAll('video').forEach(v => {
-  v.addEventListener('play', (e) => {
-    pauseAllExcept(e.target.id);
-  });
-});
-
-/* تنقل ناعم */
-function scrollToEpisode(id) {
-  document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "center" });
-}
+/* يغطي حالة التشغيل عند الضغط على الفيديو نفسه */
+document.querySelectorAll('video').forEach(v => v.addEventListener('play', e => pauseAllExcept(e.target.id)));
 
 /* تهيئة العدادات */
 setupTimer("videoIntro","timerIntro");
