@@ -18,13 +18,13 @@
     margin: 30px 0 10px;
     color: #007744;
     text-align: left;
-    margin-left: 15%;
+    margin-left: 10%;
   }
 
   /* الأزرار الجانبية */
   .buttons {
     position: fixed;
-    right: 5%;
+    right: 3%;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -48,14 +48,15 @@
     background: #00aa66;
   }
 
-  /* المعرض */
+  /* الفيديو والمعرض */
   .episode {
     background: white;
     margin: 40px auto;
     padding: 20px;
     border-radius: 12px;
-    width: 45%; /* ← تصغير العرض */
+    width: 45%;
     box-shadow: 0 0 20px rgba(0, 128, 0, 0.15);
+    transition: 0.3s;
   }
 
   video {
@@ -94,13 +95,38 @@
     color: #007744;
     font-size: 0.9em;
   }
+
+  /* 📱 استجابة الموبايل */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 1.3em;
+      text-align: center;
+      margin-left: 0;
+    }
+    .episode {
+      width: 90%;
+      margin: 20px auto;
+      padding: 15px;
+    }
+    .buttons {
+      flex-direction: row;
+      position: static;
+      justify-content: center;
+      margin-bottom: 10px;
+      transform: none;
+    }
+    .buttons button {
+      font-size: 0.9rem;
+      padding: 8px 14px;
+    }
+  }
 </style>
 </head>
 <body>
 
 <h1>مرحبًا بكم في بودكاست المدقق اللغوي</h1>
 
-<!-- الأزرار الجانبية -->
+<!-- أزرار التنقل -->
 <div class="buttons">
   <button onclick="scrollToEpisode('intro')">الافتتاحية</button>
   <button onclick="scrollToEpisode('ep1')">الحلقة الأولى</button>
@@ -140,8 +166,19 @@
 
 <script>
 function playVideo(id) {
-  document.getElementById(id).play();
+  const video = document.getElementById(id);
+  video.play();
+
+  // 📱 عند التشغيل من الموبايل، حاوِل تفعيل الوضع الأفقي تلقائيًا
+  if (screen.orientation && screen.orientation.lock) {
+    try {
+      screen.orientation.lock('landscape');
+    } catch (e) {
+      console.log("Orientation lock غير مدعوم في هذا المتصفح");
+    }
+  }
 }
+
 function pauseVideo(id) {
   document.getElementById(id).pause();
 }
