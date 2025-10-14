@@ -8,17 +8,21 @@
   body {
     margin: 0;
     font-family: 'Cairo', sans-serif;
-    background: #f9f9f9; /* خلفية فاتحة */
+    background: #f9f9f9;
     color: #222;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
+
+  /* 🔸 الكلمة الترحيبية */
   h1 {
-    margin: 25px 0;
+    margin: 25px 0 15px 0;
     color: #007700;
     text-shadow: 0 0 5px #aaffaa;
+    transform: translateX(-10%); /* تزحزح يسار شوية */
   }
+
   .container {
     display: flex;
     justify-content: center;
@@ -26,6 +30,8 @@
     width: 90%;
     max-width: 1200px;
   }
+
+  /* 🔸 الأزرار الجانبية */
   .sidebar {
     width: 20%;
     text-align: right;
@@ -48,6 +54,8 @@
     color: #00aa00;
     border: 1px solid #00aa00;
   }
+
+  /* 🔸 قسم الفيديو */
   .video-section {
     flex: 1;
     background: #fff;
@@ -61,7 +69,14 @@
     width: 100%;
     border-radius: 10px;
     border: 2px solid #00aa00;
+    opacity: 0;
+    transition: opacity 1s ease-in-out; /* تأثير دخول ناعم */
   }
+  video.loaded {
+    opacity: 1;
+  }
+
+  /* 🔸 عناصر التحكم */
   .controls {
     margin-top: 15px;
   }
@@ -118,21 +133,22 @@
   const video = document.getElementById('mainVideo');
   const timer = document.getElementById('timer');
 
-  // تحميل الفيديو من نفس المسار داخل الموقع
+  // 🔹 تحميل الفيديو وتشغيله فورًا
   function loadEpisode(src) {
     video.src = src;
     video.load();
     video.play();
+    video.classList.add('loaded'); // لإظهار الفيديو بتأثير ناعم
   }
 
-  // التحكم في التشغيل
+  // 🔹 عناصر التحكم
   function playVideo(){ video.play(); }
   function pauseVideo(){ video.pause(); }
   function rewindVideo(){
     video.currentTime = Math.max(0, video.currentTime - 5);
   }
 
-  // عداد الزمن
+  // 🔹 عداد الزمن
   video.addEventListener('timeupdate', () => {
     const m = String(Math.floor(video.currentTime / 60)).padStart(2, '0');
     const s = String(Math.floor(video.currentTime % 60)).padStart(2, '0');
