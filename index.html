@@ -1,141 +1,144 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>بودكاست المصحح اللغوي - معنا ومعكم</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background: #111;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    h1 {
-      margin: 20px 0;
-      color: #0f0;
-      text-shadow: 0 0 10px #0f0;
-    }
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      width: 90%;
-      max-width: 1200px;
-    }
-    .sidebar {
-      width: 20%;
-      text-align: right;
-    }
-    .sidebar button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      font-size: 1em;
-      background: #0f0;
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .sidebar button:hover {
-      background: #fff;
-      color: #0f0;
-    }
-    .video-section {
-      flex: 1;
-      background: #222;
-      margin: 0 20px;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,255,0,0.3);
-      position: relative;
-    }
-    video {
-      width: 100%;
-      border-radius: 10px;
-    }
-    .controls {
-      margin-top: 15px;
-    }
-    .controls button {
-      padding: 8px 15px;
-      margin: 0 5px;
-      border: none;
-      border-radius: 6px;
-      background: #0f0;
-      color: #000;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .controls button:hover {
-      background: #fff;
-      color: #0f0;
-    }
-    .timer {
-      margin-top: 10px;
-      color: #0f0;
-      font-size: 1em;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بودكاست المدقق اللغوي - معنا ومعكم</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: #f9f9f9; /* خلفية فاتحة */
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    margin: 25px 0;
+    color: #007700;
+    text-shadow: 0 0 5px #aaffaa;
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 90%;
+    max-width: 1200px;
+  }
+  .sidebar {
+    width: 20%;
+    text-align: right;
+  }
+  .sidebar button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 1em;
+    background: #00aa00;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .sidebar button:hover {
+    background: #fff;
+    color: #00aa00;
+    border: 1px solid #00aa00;
+  }
+  .video-section {
+    flex: 1;
+    background: #fff;
+    margin: 0 20px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 128, 0, 0.2);
+    text-align: center;
+  }
+  video {
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid #00aa00;
+  }
+  .controls {
+    margin-top: 15px;
+  }
+  .controls button {
+    padding: 8px 15px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 6px;
+    background: #00aa00;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .controls button:hover {
+    background: #fff;
+    color: #00aa00;
+    border: 1px solid #00aa00;
+  }
+  .timer {
+    margin-top: 10px;
+    color: #007700;
+    font-size: 1em;
+  }
+</style>
 </head>
 <body>
 
-  <h1>مرحبًا بكم في بودكاست "المصحح اللغوي"</h1>
+<h1>مرحبًا بكم في بودكاست "المدقق اللغوي"</h1>
 
-  <div class="container">
-    <div class="sidebar">
-      <button onclick="loadEpisode('https://713mamado-ctrl.github.io/podcast-site/ma3kom_podcast_ma3na.mp4')">الافتتاحية</button>
-      <button disabled>الحلقة الأولى</button>
-      <button disabled>الحلقة الثانية</button>
-    </div>
-
-    <div class="video-section">
-      <video id="mainVideo" controlslist="nodownload">
-        <source src="" type="video/mp4">
-        متصفحك لا يدعم تشغيل الفيديو.
-      </video>
-
-      <div class="controls">
-        <button onclick="playVideo()">تشغيل</button>
-        <button onclick="pauseVideo()">إيقاف</button>
-        <button onclick="rewindVideo()">ترجيع 5 ثوانٍ</button>
-      </div>
-
-      <div class="timer" id="timer">00:00</div>
-    </div>
+<div class="container">
+  <div class="sidebar">
+    <button onclick="loadEpisode('ma3kom_podcast_ma3na.mp4')">الافتتاحية</button>
+    <button disabled>الحلقة الأولى</button>
+    <button disabled>الحلقة الثانية</button>
   </div>
 
-  <script>
-    const video = document.getElementById('mainVideo');
-    const timer = document.getElementById('timer');
+  <div class="video-section">
+    <video id="mainVideo" controlslist="nodownload">
+      <source src="" type="video/mp4">
+      متصفحك لا يدعم تشغيل الفيديو.
+    </video>
 
-    // تحميل الحلقة المختارة
-    function loadEpisode(src) {
-      video.src = src;
-      video.load();
-      video.play();
-    }
+    <div class="controls">
+      <button onclick="playVideo()">تشغيل</button>
+      <button onclick="pauseVideo()">إيقاف</button>
+      <button onclick="rewindVideo()">ترجيع 5 ثوانٍ</button>
+    </div>
 
-    // عناصر التحكم
-    function playVideo(){ video.play(); }
-    function pauseVideo(){ video.pause(); }
-    function rewindVideo(){
-      video.currentTime = Math.max(0, video.currentTime - 5);
-    }
+    <div class="timer" id="timer">00:00</div>
+  </div>
+</div>
 
-    // عداد الزمن
-    video.addEventListener('timeupdate', () => {
-      const m = String(Math.floor(video.currentTime / 60)).padStart(2, '0');
-      const s = String(Math.floor(video.currentTime % 60)).padStart(2, '0');
-      timer.textContent = `${m}:${s}`;
-    });
-  </script>
+<script>
+  const video = document.getElementById('mainVideo');
+  const timer = document.getElementById('timer');
+
+  // تحميل الفيديو من نفس المسار داخل الموقع
+  function loadEpisode(src) {
+    video.src = src;
+    video.load();
+    video.play();
+  }
+
+  // التحكم في التشغيل
+  function playVideo(){ video.play(); }
+  function pauseVideo(){ video.pause(); }
+  function rewindVideo(){
+    video.currentTime = Math.max(0, video.currentTime - 5);
+  }
+
+  // عداد الزمن
+  video.addEventListener('timeupdate', () => {
+    const m = String(Math.floor(video.currentTime / 60)).padStart(2, '0');
+    const s = String(Math.floor(video.currentTime % 60)).padStart(2, '0');
+    timer.textContent = `${m}:${s}`;
+  });
+</script>
 
 </body>
 </html>
