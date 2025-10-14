@@ -5,117 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>بودكاست المدقق اللغوي</title>
 <style>
-  body {
-    margin: 0;
-    font-family: "Cairo", sans-serif;
-    background: #f9f9f9;
-    color: #222;
-    text-align: center;
-    overflow-x: hidden;
-  }
-
-  h1 {
-    margin: 30px 0 10px;
-    color: #007744;
-    text-align: left;
-    margin-left: 10%;
-  }
-
-  .buttons {
-    position: fixed;
-    right: 3%;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 1000;
-  }
-
-  .buttons button {
-    background: #007744;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: 0.3s;
-  }
-
-  .buttons button:hover {
-    background: #00aa66;
-  }
-
-  .episode {
-    background: white;
-    margin: 40px auto;
-    padding: 20px;
-    border-radius: 12px;
-    width: 42%;
-    box-shadow: 0 0 20px rgba(0, 128, 0, 0.15);
-    transition: 0.3s;
-  }
-
-  video {
-    width: 100%;
-    border-radius: 10px;
-  }
-
-  .controls {
-    margin-top: 10px;
-  }
-
-  .controls button,
-  .controls input[type="range"] {
-    padding: 6px 10px;
-    margin: 0 3px;
-    border: none;
-    border-radius: 5px;
-    background: #007744;
-    color: #fff;
-    cursor: pointer;
-    transition: 0.3s;
-    vertical-align: middle;
-  }
-
-  .controls button:hover {
-    background: #00aa66;
-  }
-
-  .controls input[type="range"] {
-    width: 100px;
-    background: transparent;
-  }
-
-  .timer {
-    margin-top: 6px;
-    color: #007744;
-    font-size: 0.9em;
-  }
-
-  @media (max-width: 768px) {
-    h1 {
-      font-size: 1.3em;
-      text-align: center;
-      margin-left: 0;
-    }
-    .episode {
-      width: 90%;
-      margin: 20px auto;
-      padding: 15px;
-    }
-    .buttons {
-      flex-direction: row;
-      position: static;
-      justify-content: center;
-      margin-bottom: 10px;
-      transform: none;
-    }
-    .buttons button {
-      font-size: 0.9rem;
-      padding: 8px 14px;
-    }
+  body { margin:0; font-family:"Cairo",sans-serif; background:#f9f9f9; color:#222; text-align:center; overflow-x:hidden; }
+  h1 { margin:30px 0 10px; color:#007744; text-align:left; margin-left:10%; }
+  .buttons { position:fixed; right:3%; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:10px; z-index:1000; }
+  .buttons button { background:#007744; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-size:1rem; transition:0.3s; }
+  .buttons button:hover { background:#00aa66; }
+  .episode { background:white; margin:40px auto; padding:20px; border-radius:12px; width:42%; box-shadow:0 0 20px rgba(0,128,0,0.15); transition:0.3s; }
+  video { width:100%; border-radius:10px; }
+  .controls { margin-top:10px; }
+  .controls button, .controls input[type="range"] { padding:6px 10px; margin:0 3px; border:none; border-radius:5px; background:#007744; color:#fff; cursor:pointer; transition:0.3s; vertical-align:middle; }
+  .controls button:hover { background:#00aa66; }
+  .controls input[type="range"] { width:100px; background:transparent; }
+  .timer { margin-top:6px; color:#007744; font-size:0.9em; }
+  @media (max-width:768px) {
+    h1 { font-size:1.3em; text-align:center; margin-left:0; }
+    .episode { width:95%; margin:20px auto; padding:15px; }
+    .buttons { flex-direction:row; position:static; justify-content:center; margin-bottom:10px; transform:none; }
+    .buttons button { font-size:0.9rem; padding:8px 14px; }
   }
 </style>
 </head>
@@ -130,14 +36,14 @@
 
 <div id="intro" class="episode">
   <h2>الافتتاحية</h2>
-  <video id="videoIntro" src="https://github.com/713mamado-ctrl/podcast-site/releases/download/v1-opening/ma3kom_podcast_ma3na.mp4" type="video/mp4"></video>
+  <video id="videoIntro" src="https://github.com/713mamado-ctrl/podcast-site/releases/download/v1-opening/ma3kom_podcast_ma3na.mp4" playsinline></video>
   <div class="controls">
     <button onclick="playVideo('videoIntro')">▶ تشغيل</button>
     <button onclick="pauseVideo('videoIntro')">⏸ إيقاف</button>
     <button onclick="rewindVideo('videoIntro')">⏪ ترجيع</button>
     <button onclick="forwardVideo('videoIntro')">⏩ تقديم</button>
     <button onclick="toggleFullScreen('videoIntro')">⛶ تكبير</button>
-    <button id="muteBtnIntro" onclick="toggleMute('videoIntro', 'muteBtnIntro')">🔊</button>
+    <button id="muteBtnIntro" onclick="toggleMute('videoIntro','muteBtnIntro')">🔊</button>
     <input type="range" min="0" max="1" step="0.05" value="1" onchange="setVolume('videoIntro', this.value)">
   </div>
   <div class="timer" id="timerIntro">00:00</div>
@@ -145,63 +51,51 @@
 
 <div id="ep1" class="episode">
   <h2>الحلقة الأولى</h2>
-  <video id="video1" src="https://713mamado-ctrl.github.io/podcast-site/assets/الحلقة1.mp4" type="video/mp4"></video>
+  <video id="video1" src="https://713mamado-ctrl.github.io/podcast-site/assets/الحلقة1.mp4" playsinline></video>
   <div class="controls">
     <button onclick="playVideo('video1')">▶ تشغيل</button>
     <button onclick="pauseVideo('video1')">⏸ إيقاف</button>
     <button onclick="rewindVideo('video1')">⏪ ترجيع</button>
     <button onclick="forwardVideo('video1')">⏩ تقديم</button>
     <button onclick="toggleFullScreen('video1')">⛶ تكبير</button>
-    <button id="muteBtn1" onclick="toggleMute('video1', 'muteBtn1')">🔊</button>
+    <button id="muteBtn1" onclick="toggleMute('video1','muteBtn1')">🔊</button>
     <input type="range" min="0" max="1" step="0.05" value="1" onchange="setVolume('video1', this.value)">
   </div>
   <div class="timer" id="timer1">00:00</div>
 </div>
 
 <script>
+/* ======= إدارة تشغيل واحد فقط ======= */
+// يوقف كل الفيديوهات ما عدا المعرف الممرّر
+function pauseAllExcept(activeId) {
+  const vids = document.querySelectorAll('video');
+  vids.forEach(v => {
+    if (v.id !== activeId) {
+      try { v.pause(); } catch(e){ console.log(e); }
+    }
+  });
+}
+
+/* وظائف تشغيل أساسية — الآن تستدعي pauseAllExcept */
 function playVideo(id) {
+  pauseAllExcept(id);
   const video = document.getElementById(id);
   video.play();
-
-  if (screen.orientation && screen.orientation.lock) {
-    try {
-      screen.orientation.lock('landscape');
-    } catch (e) {
-      console.log("orientation not supported");
-    }
-  }
-
-  // 📱 بعد انتهاء الفيديو يرجع للوضع العمودي
-  video.onended = () => {
-    if (screen.orientation && screen.orientation.lock) {
-      try {
-        screen.orientation.lock('portrait');
-      } catch (e) {
-        console.log("portrait lock not supported");
-      }
-    }
-  };
 }
-
-function pauseVideo(id) {
-  document.getElementById(id).pause();
-}
+function pauseVideo(id) { document.getElementById(id).pause(); }
 function rewindVideo(id) {
   const v = document.getElementById(id);
   v.currentTime = Math.max(0, v.currentTime - 5);
 }
 function forwardVideo(id) {
   const v = document.getElementById(id);
-  v.currentTime = Math.min(v.duration, v.currentTime + 5);
+  v.currentTime = Math.min(v.duration || Infinity, v.currentTime + 5);
 }
-function setVolume(id, val) {
-  document.getElementById(id).volume = val;
-}
+function setVolume(id, val) { document.getElementById(id).volume = val; }
 function toggleFullScreen(id) {
   const video = document.getElementById(id);
   if (video.requestFullscreen) video.requestFullscreen();
   else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
-  else if (video.msRequestFullscreen) video.msRequestFullscreen();
 }
 function toggleMute(videoId, btnId) {
   const video = document.getElementById(videoId);
@@ -209,6 +103,8 @@ function toggleMute(videoId, btnId) {
   video.muted = !video.muted;
   btn.textContent = video.muted ? "🔇" : "🔊";
 }
+
+/* العداد لكل فيديو */
 function setupTimer(videoId, timerId) {
   const video = document.getElementById(videoId);
   const timer = document.getElementById(timerId);
@@ -218,11 +114,23 @@ function setupTimer(videoId, timerId) {
     timer.textContent = `${m}:${s}`;
   });
 }
+
+/* لو أي فيديو بدأ تشغيل بأي طريقة (حتى لو ضغط المستخدم على الفيديو نفسه),
+   نوقف الباقي تلقائيًا — هذا يغطي كل حالات التشغيل */
+document.querySelectorAll('video').forEach(v => {
+  v.addEventListener('play', (e) => {
+    pauseAllExcept(e.target.id);
+  });
+});
+
+/* تنقل ناعم */
 function scrollToEpisode(id) {
   document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "center" });
 }
-setupTimer("videoIntro", "timerIntro");
-setupTimer("video1", "timer1");
+
+/* تهيئة العدادات */
+setupTimer("videoIntro","timerIntro");
+setupTimer("video1","timer1");
 </script>
 
 </body>
