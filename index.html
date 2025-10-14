@@ -21,7 +21,6 @@
     margin-left: 10%;
   }
 
-  /* الأزرار الجانبية */
   .buttons {
     position: fixed;
     right: 3%;
@@ -48,13 +47,12 @@
     background: #00aa66;
   }
 
-  /* الفيديو والمعرض */
   .episode {
     background: white;
     margin: 40px auto;
     padding: 20px;
     border-radius: 12px;
-    width: 45%;
+    width: 42%;
     box-shadow: 0 0 20px rgba(0, 128, 0, 0.15);
     transition: 0.3s;
   }
@@ -96,7 +94,6 @@
     font-size: 0.9em;
   }
 
-  /* 📱 استجابة الموبايل */
   @media (max-width: 768px) {
     h1 {
       font-size: 1.3em;
@@ -126,13 +123,11 @@
 
 <h1>مرحبًا بكم في بودكاست المدقق اللغوي</h1>
 
-<!-- أزرار التنقل -->
 <div class="buttons">
   <button onclick="scrollToEpisode('intro')">الافتتاحية</button>
   <button onclick="scrollToEpisode('ep1')">الحلقة الأولى</button>
 </div>
 
-<!-- الافتتاحية -->
 <div id="intro" class="episode">
   <h2>الافتتاحية</h2>
   <video id="videoIntro" src="https://github.com/713mamado-ctrl/podcast-site/releases/download/v1-opening/ma3kom_podcast_ma3na.mp4" type="video/mp4"></video>
@@ -148,7 +143,6 @@
   <div class="timer" id="timerIntro">00:00</div>
 </div>
 
-<!-- الحلقة الأولى -->
 <div id="ep1" class="episode">
   <h2>الحلقة الأولى</h2>
   <video id="video1" src="https://713mamado-ctrl.github.io/podcast-site/assets/الحلقة1.mp4" type="video/mp4"></video>
@@ -169,14 +163,24 @@ function playVideo(id) {
   const video = document.getElementById(id);
   video.play();
 
-  // 📱 عند التشغيل من الموبايل، حاوِل تفعيل الوضع الأفقي تلقائيًا
   if (screen.orientation && screen.orientation.lock) {
     try {
       screen.orientation.lock('landscape');
     } catch (e) {
-      console.log("Orientation lock غير مدعوم في هذا المتصفح");
+      console.log("orientation not supported");
     }
   }
+
+  // 📱 بعد انتهاء الفيديو يرجع للوضع العمودي
+  video.onended = () => {
+    if (screen.orientation && screen.orientation.lock) {
+      try {
+        screen.orientation.lock('portrait');
+      } catch (e) {
+        console.log("portrait lock not supported");
+      }
+    }
+  };
 }
 
 function pauseVideo(id) {
