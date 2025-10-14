@@ -42,7 +42,7 @@
     margin: 40px auto;
     padding: 20px;
     border-radius: 12px;
-    width: 55%; /* ← تم تقليص العرض ليصبح أنيقًا ومناسبًا */
+    width: 55%;
     box-shadow: 0 0 20px rgba(0, 128, 0, 0.15);
     position: relative;
   }
@@ -53,15 +53,20 @@
   .controls {
     margin-top: 10px;
   }
-  .controls button {
-    padding: 6px 14px;
-    margin: 0 5px;
+  .controls button, .controls input[type='range'] {
+    padding: 6px 12px;
+    margin: 0 4px;
     border: none;
     border-radius: 5px;
     background: #007744;
     color: #fff;
     cursor: pointer;
     transition: 0.3s;
+    vertical-align: middle;
+  }
+  .controls input[type='range'] {
+    width: 100px;
+    background: transparent;
   }
   .controls button:hover {
     background: #00aa66;
@@ -87,9 +92,11 @@
   <h2>الافتتاحية</h2>
   <video id="videoIntro" src="https://github.com/713mamado-ctrl/podcast-site/releases/download/v1-opening/ma3kom_podcast_ma3na.mp4" type="video/mp4"></video>
   <div class="controls">
-    <button onclick="playVideo('videoIntro')">تشغيل</button>
-    <button onclick="pauseVideo('videoIntro')">إيقاف</button>
-    <button onclick="rewindVideo('videoIntro')">ترجيع 5 ثوانٍ</button>
+    <button onclick="playVideo('videoIntro')">▶ تشغيل</button>
+    <button onclick="pauseVideo('videoIntro')">⏸ إيقاف</button>
+    <button onclick="rewindVideo('videoIntro')">⏪ ترجيع 5 ثوانٍ</button>
+    <button onclick="toggleFullScreen('videoIntro')">⛶ تكبير</button>
+    🔊 <input type="range" min="0" max="1" step="0.05" value="1" onchange="setVolume('videoIntro', this.value)">
   </div>
   <div class="timer" id="timerIntro">00:00</div>
 </div>
@@ -99,20 +106,35 @@
   <h2>الحلقة الأولى</h2>
   <video id="video1" src="https://713mamado-ctrl.github.io/podcast-site/assets/الحلقة1.mp4" type="video/mp4"></video>
   <div class="controls">
-    <button onclick="playVideo('video1')">تشغيل</button>
-    <button onclick="pauseVideo('video1')">إيقاف</button>
-    <button onclick="rewindVideo('video1')">ترجيع 5 ثوانٍ</button>
+    <button onclick="playVideo('video1')">▶ تشغيل</button>
+    <button onclick="pauseVideo('video1')">⏸ إيقاف</button>
+    <button onclick="rewindVideo('video1')">⏪ ترجيع 5 ثوانٍ</button>
+    <button onclick="toggleFullScreen('video1')">⛶ تكبير</button>
+    🔊 <input type="range" min="0" max="1" step="0.05" value="1" onchange="setVolume('video1', this.value)">
   </div>
   <div class="timer" id="timer1">00:00</div>
 </div>
 
 <script>
-// تشغيل، إيقاف، وترجيع
+// تشغيل وإيقاف وترجيع
 function playVideo(id){ document.getElementById(id).play(); }
 function pauseVideo(id){ document.getElementById(id).pause(); }
 function rewindVideo(id){
   const v = document.getElementById(id);
   v.currentTime = Math.max(0, v.currentTime - 5);
+}
+
+// التحكم في الصوت
+function setVolume(id, val){
+  document.getElementById(id).volume = val;
+}
+
+// تكبير الشاشة
+function toggleFullScreen(id){
+  const video = document.getElementById(id);
+  if (video.requestFullscreen) video.requestFullscreen();
+  else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+  else if (video.msRequestFullscreen) video.msRequestFullscreen();
 }
 
 // تحديث العداد
@@ -127,14 +149,4 @@ function setupTimer(videoId, timerId){
 }
 
 // التنقل بين الحلقات
-function scrollToEpisode(id){
-  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-// تفعيل العداد
-setupTimer('videoIntro','timerIntro');
-setupTimer('video1','timer1');
-</script>
-
-</body>
-</html>
+function scro
