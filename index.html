@@ -48,13 +48,13 @@
     background: #00aa66;
   }
 
-  /* منطقة الفيديو */
+  /* المعرض */
   .episode {
     background: white;
-    margin: 60px auto;
+    margin: 40px auto;
     padding: 20px;
     border-radius: 12px;
-    width: 55%;
+    width: 45%; /* ← تصغير العرض */
     box-shadow: 0 0 20px rgba(0, 128, 0, 0.15);
   }
 
@@ -67,19 +67,26 @@
     margin-top: 10px;
   }
 
-  .controls button {
-    padding: 6px 12px;
-    margin: 0 4px;
+  .controls button,
+  .controls input[type="range"] {
+    padding: 6px 10px;
+    margin: 0 3px;
     border: none;
     border-radius: 5px;
     background: #007744;
     color: #fff;
     cursor: pointer;
     transition: 0.3s;
+    vertical-align: middle;
   }
 
   .controls button:hover {
     background: #00aa66;
+  }
+
+  .controls input[type="range"] {
+    width: 100px;
+    background: transparent;
   }
 
   .timer {
@@ -93,7 +100,7 @@
 
 <h1>مرحبًا بكم في بودكاست المدقق اللغوي</h1>
 
-<!-- أزرار التنقل الجانبية -->
+<!-- الأزرار الجانبية -->
 <div class="buttons">
   <button onclick="scrollToEpisode('intro')">الافتتاحية</button>
   <button onclick="scrollToEpisode('ep1')">الحلقة الأولى</button>
@@ -110,6 +117,7 @@
     <button onclick="forwardVideo('videoIntro')">⏩ تقديم</button>
     <button onclick="toggleFullScreen('videoIntro')">⛶ تكبير</button>
     <button id="muteBtnIntro" onclick="toggleMute('videoIntro', 'muteBtnIntro')">🔊</button>
+    <input type="range" min="0" max="1" step="0.05" value="1" onchange="setVolume('videoIntro', this.value)">
   </div>
   <div class="timer" id="timerIntro">00:00</div>
 </div>
@@ -125,6 +133,7 @@
     <button onclick="forwardVideo('video1')">⏩ تقديم</button>
     <button onclick="toggleFullScreen('video1')">⛶ تكبير</button>
     <button id="muteBtn1" onclick="toggleMute('video1', 'muteBtn1')">🔊</button>
+    <input type="range" min="0" max="1" step="0.05" value="1" onchange="setVolume('video1', this.value)">
   </div>
   <div class="timer" id="timer1">00:00</div>
 </div>
@@ -143,6 +152,9 @@ function rewindVideo(id) {
 function forwardVideo(id) {
   const v = document.getElementById(id);
   v.currentTime = Math.min(v.duration, v.currentTime + 5);
+}
+function setVolume(id, val) {
+  document.getElementById(id).volume = val;
 }
 function toggleFullScreen(id) {
   const video = document.getElementById(id);
