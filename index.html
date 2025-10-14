@@ -1,172 +1,164 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>بودكاست المدقق اللغوي - معنا ومعكم</title>
-<style>
-  body {
-    margin: 0;
-    font-family: 'Cairo', sans-serif;
-    background: #f9f9f9;
-    color: #222;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بودكاست المدقق اللغوي - معنا ومعكم</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: #f9f9f9;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-  /* 🔹 الكلمة الترحيبية */
-  h1 {
-    margin: 25px 0 15px 0;
-    color: #007700;
-    text-shadow: 0 0 5px #aaffaa;
-    transform: translateX(-10%); /* تزحزح يسار شوية */
-  }
+    h1 {
+      margin: 25px 0 15px 0;
+      color: #007700;
+      text-shadow: 0 0 5px #aaffaa;
+      transform: translateX(-10%);
+    }
 
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    width: 90%;
-    max-width: 1200px;
-  }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      width: 90%;
+      max-width: 1200px;
+    }
 
-  /* 🔹 الأزرار الجانبية */
-  .sidebar {
-    width: 20%;
-    text-align: right;
-  }
-  .sidebar button {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 1em;
-    background: #00aa00;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  .sidebar button:hover {
-    background: #fff;
-    color: #00aa00;
-    border: 1px solid #00aa00;
-  }
+    .sidebar {
+      width: 20%;
+      text-align: right;
+    }
+    .sidebar button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 1em;
+      background: #00aa00;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .sidebar button:hover {
+      background: #fff;
+      color: #00aa00;
+      border: 1px solid #00aa00;
+    }
 
-  /* 🔹 قسم الفيديو */
-  .video-section {
-    flex: 1;
-    background: #fff;
-    margin: 0 20px;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(0, 128, 0, 0.2);
-    text-align: center;
-  }
-  video {
-    width: 100%;
-    border-radius: 10px;
-    border: 2px solid #00aa00;
-    opacity: 0;
-    transition: opacity 1s ease-in-out; /* تأثير دخول ناعم */
-  }
-  video.loaded {
-    opacity: 1;
-  }
+    .video-section {
+      flex: 1;
+      background: #fff;
+      margin: 0 20px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 128, 0, 0.2);
+      text-align: center;
+    }
+    video {
+      width: 100%;
+      border-radius: 10px;
+      border: 2px solid #00aa00;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    video.loaded {
+      opacity: 1;
+    }
 
-  /* 🔹 عناصر التحكم */
-  .controls {
-    margin-top: 15px;
-  }
-  .controls button {
-    padding: 8px 15px;
-    margin: 0 5px;
-    border: none;
-    border-radius: 6px;
-    background: #00aa00;
-    color: #fff;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  .controls button:hover {
-    background: #fff;
-    color: #00aa00;
-    border: 1px solid #00aa00;
-  }
-  .timer {
-    margin-top: 10px;
-    color: #007700;
-    font-size: 1em;
-  }
+    .controls {
+      margin-top: 15px;
+    }
+    .controls button {
+      padding: 8px 15px;
+      margin: 0 5px;
+      border: none;
+      border-radius: 6px;
+      background: #00aa00;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .controls button:hover {
+      background: #fff;
+      color: #00aa00;
+      border: 1px solid #00aa00;
+    }
+    .timer {
+      margin-top: 10px;
+      color: #007700;
+      font-size: 1em;
+    }
 
-  /* 🔹 نص فوق الفيديو */
-  .episode-title {
-    font-size: 1.1em;
-    margin-bottom: 10px;
-    color: #004d00;
-    font-weight: bold;
-  }
-</style>
+    .episode-title {
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      color: #004d00;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
-<h1>مرحبًا بكم في بودكاست "المدقق اللغوي"</h1>
+  <h1>مرحبًا بكم في بودكاست "المدقق اللغوي"</h1>
 
-<div class="container">
-  <div class="sidebar">
-    <button onclick="loadEpisode('ma3kom_podcast_ma3na.mp4', 'الافتتاحية - معنا ومعكم')">الافتتاحية</button>
-    <button disabled>الحلقة الأولى</button>
-    <button disabled>الحلقة الثانية</button>
-  </div>
-
-  <div class="video-section">
-    <div class="episode-title" id="episodeTitle">🎙️ اختر حلقة للبدء</div>
-    <video id="mainVideo" controlslist="nodownload">
-      <source src="" type="video/mp4">
-      متصفحك لا يدعم تشغيل الفيديو.
-    </video>
-
-    <div class="controls">
-      <button onclick="playVideo()">تشغيل</button>
-      <button onclick="pauseVideo()">إيقاف</button>
-      <button onclick="rewindVideo()">ترجيع 5 ثوانٍ</button>
+  <div class="container">
+    <div class="sidebar">
+      <button onclick="loadEpisode()">الافتتاحية</button>
+      <button disabled>الحلقة الأولى</button>
+      <button disabled>الحلقة الثانية</button>
     </div>
 
-    <div class="timer" id="timer">00:00</div>
+    <div class="video-section">
+      <div class="episode-title" id="episodeTitle">🎙️ اختر حلقة للبدء</div>
+      <video id="mainVideo" controlslist="nodownload">
+        <source src="" type="video/mp4">
+        متصفحك لا يدعم تشغيل الفيديو.
+      </video>
+
+      <div class="controls">
+        <button onclick="playVideo()">تشغيل</button>
+        <button onclick="pauseVideo()">إيقاف</button>
+        <button onclick="rewindVideo()">ترجيع 5 ثوانٍ</button>
+      </div>
+
+      <div class="timer" id="timer">00:00</div>
+    </div>
   </div>
-</div>
 
-<script>
-  const video = document.getElementById('mainVideo');
-  const timer = document.getElementById('timer');
-  const title = document.getElementById('episodeTitle');
+  <script>
+    const video = document.getElementById('mainVideo');
+    const timer = document.getElementById('timer');
+    const title = document.getElementById('episodeTitle');
 
-  // 🔹 تحميل الفيديو وتشغيله فورًا
-  function loadEpisode(src, titleText) {
-    const fullSrc = `https://713mamado-ctrl.github.io/podcast-site/${src}`;
-    video.src = fullSrc;
-    video.load();
-    video.play();
-    video.classList.add('loaded');
-    title.textContent = `🎧 ${titleText}`;
-  }
+    function loadEpisode() {
+      const src = 'https://github.com/713mamado-ctrl/podcast-site/releases/download/v1-opening/ma3kom_podcast_ma3na.mp4';
+      video.src = src;
+      video.load();
+      video.play();
+      video.classList.add('loaded');
+      title.textContent = `🎧 الافتتاحية - معنا ومعكم`;
+    }
 
-  // 🔹 عناصر التحكم
-  function playVideo(){ video.play(); }
-  function pauseVideo(){ video.pause(); }
-  function rewindVideo(){
-    video.currentTime = Math.max(0, video.currentTime - 5);
-  }
+    function playVideo(){ video.play(); }
+    function pauseVideo(){ video.pause(); }
+    function rewindVideo(){
+      video.currentTime = Math.max(0, video.currentTime - 5);
+    }
 
-  // 🔹 عداد الزمن
-  video.addEventListener('timeupdate', () => {
-    const m = String(Math.floor(video.currentTime / 60)).padStart(2, '0');
-    const s = String(Math.floor(video.currentTime % 60)).padStart(2, '0');
-    timer.textContent = `${m}:${s}`;
-  });
-</script>
+    video.addEventListener('timeupdate', () => {
+      const m = String(Math.floor(video.currentTime / 60)).padStart(2, '0');
+      const s = String(Math.floor(video.currentTime % 60)).padStart(2, '0');
+      timer.textContent = `${m}:${s}`;
+    });
+  </script>
 
 </body>
 </html>
