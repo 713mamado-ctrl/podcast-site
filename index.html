@@ -3,19 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>بودكاست المدقق اللغوي - المعرض</title>
+<title>بودكاست المدقق اللغوي</title>
 <style>
   body {
     margin: 0;
-    font-family: 'Cairo', sans-serif;
+    font-family: "Cairo", sans-serif;
     background: #f9f9f9;
     color: #222;
     text-align: center;
   }
+
   h1 {
     margin: 30px 0 10px;
     color: #007744;
+    text-align: left;
+    margin-left: 15%;
   }
+
   .buttons {
     position: absolute;
     right: 10%;
@@ -24,6 +28,7 @@
     flex-direction: column;
     gap: 10px;
   }
+
   .buttons button {
     background: #007744;
     color: white;
@@ -34,9 +39,11 @@
     font-size: 1rem;
     transition: 0.3s;
   }
+
   .buttons button:hover {
     background: #00aa66;
   }
+
   .episode {
     background: white;
     margin: 40px auto;
@@ -44,16 +51,19 @@
     border-radius: 12px;
     width: 55%;
     box-shadow: 0 0 20px rgba(0, 128, 0, 0.15);
-    position: relative;
   }
+
   video {
     width: 100%;
     border-radius: 10px;
   }
+
   .controls {
     margin-top: 10px;
   }
-  .controls button, .controls input[type='range'] {
+
+  .controls button,
+  .controls input[type="range"] {
     padding: 6px 12px;
     margin: 0 4px;
     border: none;
@@ -64,13 +74,16 @@
     transition: 0.3s;
     vertical-align: middle;
   }
-  .controls input[type='range'] {
+
+  .controls input[type="range"] {
     width: 100px;
     background: transparent;
   }
+
   .controls button:hover {
     background: #00aa66;
   }
+
   .timer {
     margin-top: 6px;
     color: #007744;
@@ -80,7 +93,7 @@
 </head>
 <body>
 
-<h1 style="text-align:left; margin-left:15%;">مرحبًا بكم في بودكاست المدقق اللغوي</h1>
+<h1>مرحبًا بكم في بودكاست المدقق اللغوي</h1>
 
 <div class="buttons">
   <button onclick="scrollToEpisode('intro')">الافتتاحية</button>
@@ -94,7 +107,8 @@
   <div class="controls">
     <button onclick="playVideo('videoIntro')">▶ تشغيل</button>
     <button onclick="pauseVideo('videoIntro')">⏸ إيقاف</button>
-    <button onclick="rewindVideo('videoIntro')">⏪ ترجيع 5 ثوانٍ</button>
+    <button onclick="rewindVideo('videoIntro')">⏪ ترجيع</button>
+    <button onclick="forwardVideo('videoIntro')">⏩ تقديم</button>
     <button onclick="toggleFullScreen('videoIntro')">⛶ تكبير</button>
     🔊 <input type="range" min="0" max="1" step="0.05" value="1" onchange="setVolume('videoIntro', this.value)">
   </div>
@@ -108,7 +122,8 @@
   <div class="controls">
     <button onclick="playVideo('video1')">▶ تشغيل</button>
     <button onclick="pauseVideo('video1')">⏸ إيقاف</button>
-    <button onclick="rewindVideo('video1')">⏪ ترجيع 5 ثوانٍ</button>
+    <button onclick="rewindVideo('video1')">⏪ ترجيع</button>
+    <button onclick="forwardVideo('video1')">⏩ تقديم</button>
     <button onclick="toggleFullScreen('video1')">⛶ تكبير</button>
     🔊 <input type="range" min="0" max="1" step="0.05" value="1" onchange="setVolume('video1', this.value)">
   </div>
@@ -116,37 +131,44 @@
 </div>
 
 <script>
-// تشغيل وإيقاف وترجيع
-function playVideo(id){ document.getElementById(id).play(); }
-function pauseVideo(id){ document.getElementById(id).pause(); }
-function rewindVideo(id){
+function playVideo(id) {
+  document.getElementById(id).play();
+}
+function pauseVideo(id) {
+  document.getElementById(id).pause();
+}
+function rewindVideo(id) {
   const v = document.getElementById(id);
   v.currentTime = Math.max(0, v.currentTime - 5);
 }
-
-// التحكم في الصوت
-function setVolume(id, val){
+function forwardVideo(id) {
+  const v = document.getElementById(id);
+  v.currentTime = Math.min(v.duration, v.currentTime + 5);
+}
+function setVolume(id, val) {
   document.getElementById(id).volume = val;
 }
-
-// تكبير الشاشة
-function toggleFullScreen(id){
+function toggleFullScreen(id) {
   const video = document.getElementById(id);
   if (video.requestFullscreen) video.requestFullscreen();
   else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
   else if (video.msRequestFullscreen) video.msRequestFullscreen();
 }
-
-// تحديث العداد
-function setupTimer(videoId, timerId){
+function setupTimer(videoId, timerId) {
   const video = document.getElementById(videoId);
   const timer = document.getElementById(timerId);
-  video.addEventListener('timeupdate', ()=>{
-    const m = String(Math.floor(video.currentTime/60)).padStart(2,'0');
-    const s = String(Math.floor(video.currentTime%60)).padStart(2,'0');
+  video.addEventListener("timeupdate", () => {
+    const m = String(Math.floor(video.currentTime / 60)).padStart(2, "0");
+    const s = String(Math.floor(video.currentTime % 60)).padStart(2, "0");
     timer.textContent = `${m}:${s}`;
   });
 }
+function scrollToEpisode(id) {
+  document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "center" });
+}
+setupTimer("videoIntro", "timerIntro");
+setupTimer("video1", "timer1");
+</script>
 
-// التنقل بين الحلقات
-function scro
+</body>
+</html>
