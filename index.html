@@ -15,7 +15,7 @@
     align-items: center;
   }
 
-  /* 🔸 الكلمة الترحيبية */
+  /* 🔹 الكلمة الترحيبية */
   h1 {
     margin: 25px 0 15px 0;
     color: #007700;
@@ -31,7 +31,7 @@
     max-width: 1200px;
   }
 
-  /* 🔸 الأزرار الجانبية */
+  /* 🔹 الأزرار الجانبية */
   .sidebar {
     width: 20%;
     text-align: right;
@@ -55,7 +55,7 @@
     border: 1px solid #00aa00;
   }
 
-  /* 🔸 قسم الفيديو */
+  /* 🔹 قسم الفيديو */
   .video-section {
     flex: 1;
     background: #fff;
@@ -76,7 +76,7 @@
     opacity: 1;
   }
 
-  /* 🔸 عناصر التحكم */
+  /* 🔹 عناصر التحكم */
   .controls {
     margin-top: 15px;
   }
@@ -100,6 +100,14 @@
     color: #007700;
     font-size: 1em;
   }
+
+  /* 🔹 نص فوق الفيديو */
+  .episode-title {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    color: #004d00;
+    font-weight: bold;
+  }
 </style>
 </head>
 <body>
@@ -108,12 +116,13 @@
 
 <div class="container">
   <div class="sidebar">
-    <button onclick="loadEpisode('ma3kom_podcast_ma3na.mp4')">الافتتاحية</button>
+    <button onclick="loadEpisode('ma3kom_podcast_ma3na.mp4', 'الافتتاحية - معنا ومعكم')">الافتتاحية</button>
     <button disabled>الحلقة الأولى</button>
     <button disabled>الحلقة الثانية</button>
   </div>
 
   <div class="video-section">
+    <div class="episode-title" id="episodeTitle">🎙️ اختر حلقة للبدء</div>
     <video id="mainVideo" controlslist="nodownload">
       <source src="" type="video/mp4">
       متصفحك لا يدعم تشغيل الفيديو.
@@ -132,13 +141,16 @@
 <script>
   const video = document.getElementById('mainVideo');
   const timer = document.getElementById('timer');
+  const title = document.getElementById('episodeTitle');
 
   // 🔹 تحميل الفيديو وتشغيله فورًا
-  function loadEpisode(src) {
-    video.src = src;
+  function loadEpisode(src, titleText) {
+    const fullSrc = `https://713mamado-ctrl.github.io/podcast-site/${src}`;
+    video.src = fullSrc;
     video.load();
     video.play();
-    video.classList.add('loaded'); // لإظهار الفيديو بتأثير ناعم
+    video.classList.add('loaded');
+    title.textContent = `🎧 ${titleText}`;
   }
 
   // 🔹 عناصر التحكم
