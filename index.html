@@ -21,9 +21,10 @@
     margin-left: 10%;
   }
 
+  /* الأزرار الجانبية */
   .buttons {
     position: fixed;
-    right: 3%;
+    right: 2cm;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -124,6 +125,13 @@
     .episode { width: 95%; margin: 20px auto; padding: 15px; }
     .control-buttons button { font-size: 0.9rem; padding: 8px; }
     .play-button { width: 60px; height: 60px; font-size: 1.3rem; }
+    .buttons {
+      flex-direction: row;
+      position: static;
+      justify-content: center;
+      margin-bottom: 10px;
+      transform: none;
+    }
   }
 </style>
 </head>
@@ -134,8 +142,10 @@
 <div class="buttons">
   <button onclick="scrollToEpisode('intro')">الافتتاحية</button>
   <button onclick="scrollToEpisode('ep1')">الحلقة الأولى</button>
+  <button onclick="scrollToEpisode('ep2')">الحلقة الثانية</button>
 </div>
 
+<!-- ===== الافتتاحية ===== -->
 <div id="intro" class="episode">
   <h2>الافتتاحية</h2>
   <div class="video-container">
@@ -154,14 +164,49 @@
   </div>
 </div>
 
-<script>
-const video = document.getElementById('videoIntro');
-const playBtn = document.getElementById('playBtnIntro');
+<!-- ===== الحلقة الأولى ===== -->
+<div id="ep1" class="episode">
+  <h2>الحلقة الأولى</h2>
+  <div class="video-container">
+    <video id="video1" controls playsinline>
+      <source src="https://713mamado-ctrl.github.io/podcast-site/assets/الحلقة1.mp4" type="video/mp4">
+      متصفحك لا يدعم تشغيل الفيديو.
+    </video>
+    <button class="play-button" id="playBtn1" onclick="togglePlay('video1','playBtn1')">▶</button>
+  </div>
 
+  <div class="control-buttons">
+    <button onclick="rewindVideo('video1')">⏪ ترجيع</button>
+    <button onclick="pauseVideo('video1')">⏸ إيقاف</button>
+    <button onclick="playVideo('video1')">▶ تشغيل</button>
+    <button onclick="forwardVideo('video1')">⏩ تقديم</button>
+  </div>
+</div>
+
+<!-- ===== الحلقة الثانية (فارغة مؤقتًا) ===== -->
+<div id="ep2" class="episode">
+  <h2>الحلقة الثانية</h2>
+  <div class="video-container">
+    <video id="video2" controls playsinline>
+      <source src="" type="video/mp4">
+      متصفحك لا يدعم تشغيل الفيديو.
+    </video>
+    <button class="play-button" id="playBtn2" onclick="togglePlay('video2','playBtn2')">▶</button>
+  </div>
+
+  <div class="control-buttons">
+    <button onclick="rewindVideo('video2')">⏪ ترجيع</button>
+    <button onclick="pauseVideo('video2')">⏸ إيقاف</button>
+    <button onclick="playVideo('video2')">▶ تشغيل</button>
+    <button onclick="forwardVideo('video2')">⏩ تقديم</button>
+  </div>
+</div>
+
+<script>
 function togglePlay(videoId, btnId) {
   const v = document.getElementById(videoId);
   const b = document.getElementById(btnId);
-  if (v.style.display === 'none') {
+  if (v.style.display === 'none' || v.style.display === '') {
     v.style.display = 'block';
     b.style.display = 'none';
     v.play();
@@ -178,13 +223,15 @@ function playVideo(id) {
   const v = document.getElementById(id);
   v.style.display = 'block';
   v.play();
-  playBtn.style.display = 'none';
+  const btn = document.querySelector(`#playBtn${id.replace('video','')}`);
+  if(btn) btn.style.display = 'none';
 }
 
 function pauseVideo(id) {
   const v = document.getElementById(id);
   v.pause();
-  playBtn.style.display = 'block';
+  const btn = document.querySelector(`#playBtn${id.replace('video','')}`);
+  if(btn) btn.style.display = 'block';
 }
 
 function rewindVideo(id) {
@@ -199,7 +246,7 @@ function forwardVideo(id) {
 
 function scrollToEpisode(id) {
   document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "center" });
-  pauseVideo('videoIntro');
+  document.querySelectorAll("video").forEach(v => v.pause());
 }
 </script>
 
