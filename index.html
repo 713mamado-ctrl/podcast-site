@@ -6,195 +6,201 @@
 <title>بودكاست المدقق اللغوي</title>
 <style>
   body {
-    font-family:"Cairo",sans-serif;
-    background:#f9f9f9;
-    margin:0;
-    padding:0;
-    text-align:center;
+    margin: 0;
+    font-family: "Cairo", sans-serif;
+    background: #f9f9f9;
+    color: #222;
+    text-align: center;
+    overflow-x: hidden;
   }
 
   h1 {
-    color:#007744;
-    margin:25px 0;
-    font-size:1.6em;
+    margin: 30px 0 10px;
+    color: #007744;
+    text-align: left;
+    margin-left: 10%;
   }
 
-  /* ✅ مربع الحلقة */
+  .buttons {
+    position: fixed;
+    right: 3%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+  }
+
+  .buttons button {
+    background: #007744;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+  }
+
+  .buttons button:hover {
+    background: #00aa66;
+  }
+
   .episode {
-    background:#fff;
-    margin:25px auto;
-    padding:15px;
-    border-radius:12px;
-    width:45%;
-    box-shadow:0 3px 10px rgba(0,0,0,0.08);
-    display:none;
-    transition:0.3s;
+    background: white;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 40%;
+    box-shadow: 0 0 20px rgba(0, 128, 0, 0.15);
+    transition: 0.3s;
+    position: relative;
   }
 
-  /* ✅ الفيديو */
+  .video-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
   video {
-    width:70%;
-    border-radius:10px;
-    margin-top:10px;
-    border:3px solid #88cc99;
-    box-shadow:0 0 8px rgba(0,128,0,0.1);
-    opacity:0;
-    transition:opacity 1s ease;
-    display:none;
-  }
-  video.show { opacity:1; display:block; }
-
-  /* ✅ الأزرار حول الفيديو */
-  .btn-group {
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-bottom:10px;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    display: none;
   }
 
-  button {
-    flex:1;
-    padding:8px 12px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:0.9rem;
-    transition:0.2s;
-    color:#fff;
-  }
-  button:hover { transform:scale(1.05); opacity:0.9; }
-
-  .play { background:#2196F3; }
-  .pause { background:#f44336; }
-  .forward { background:#4CAF50; }
-  .rewind { background:#E91E63; }
-
-  /* ✅ أزرار التنقل بين الحلقات */
-  .nav-buttons {
-    position:fixed;
-    right:1.5cm;
-    top:50%;
-    transform:translateY(-50%);
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    z-index:1000;
+  .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 119, 68, 0.9);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 10;
   }
 
-  .nav-buttons button {
-    background:#FF9800;
-    padding:8px 14px;
-    font-size:0.9rem;
-    border-radius:8px;
+  .play-button:hover {
+    background: #00aa66;
+    transform: translate(-50%, -50%) scale(1.1);
   }
 
-  .nav-buttons button:hover { background:#ffa726; }
+  .control-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 10px;
+  }
 
-  /* ✅ تصميم مخصص للموبايل */
-  @media (max-width:768px){
-    h1 { font-size:1.3em; }
-    .episode { width:92%; margin:20px auto; padding:12px; }
-    video { width:100%; }
-    .btn-group { flex-direction:row; gap:6px; }
-    button { font-size:0.8rem; padding:6px 8px; }
+  .control-buttons button {
+    flex: 1;
+    background: #007744;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
 
-    /* أزرار التنقل تنتقل أسفل الصفحة */
-    .nav-buttons {
-      position:static;
-      transform:none;
-      flex-direction:row;
-      justify-content:center;
-      margin-bottom:15px;
-    }
+  .control-buttons button:hover {
+    background: #00aa66;
+  }
+
+  @media (max-width: 768px) {
+    h1 { font-size: 1.3em; text-align: center; margin-left: 0; }
+    .episode { width: 95%; margin: 20px auto; padding: 15px; }
+    .control-buttons button { font-size: 0.9rem; padding: 8px; }
+    .play-button { width: 60px; height: 60px; font-size: 1.3rem; }
   }
 </style>
 </head>
 <body>
 
-<h1>🎙️ بودكاست المدقق اللغوي</h1>
+<h1>بودكاست المدقق اللغوي</h1>
 
-<!-- أزرار التنقل -->
-<div class="nav-buttons">
-  <button id="prevBtn">⬆️ الحلقة السابقة</button>
-  <button id="nextBtn">⬇️ الحلقة التالية</button>
+<div class="buttons">
+  <button onclick="scrollToEpisode('intro')">الافتتاحية</button>
+  <button onclick="scrollToEpisode('ep1')">الحلقة الأولى</button>
 </div>
 
-<!-- الافتتاحية -->
-<div id="ep-intro" class="episode" style="display:block;">
+<div id="intro" class="episode">
   <h2>الافتتاحية</h2>
-  <div class="btn-group">
-    <button class="play" onclick="playVideo('introVideo')">تشغيل</button>
-    <button class="pause" onclick="pauseVideo('introVideo')">إيقاف</button>
+  <div class="video-container">
+    <video id="videoIntro" controls playsinline>
+      <source src="https://github.com/713mamado-ctrl/podcast-site/releases/download/v1-opening/ma3kom_podcast_ma3na.mp4" type="video/mp4">
+      متصفحك لا يدعم تشغيل الفيديو.
+    </video>
+    <button class="play-button" id="playBtnIntro" onclick="togglePlay('videoIntro','playBtnIntro')">▶</button>
   </div>
-  <video id="introVideo" src="https://github.com/713mamado-ctrl/podcast-site/releases/download/v1-opening/ma3kom_podcast_ma3na.mp4"></video>
-  <div class="btn-group">
-    <button class="forward" onclick="forwardVideo('introVideo')">⏩ تقديم</button>
-    <button class="rewind" onclick="rewindVideo('introVideo')">⏪ ترجيع</button>
-  </div>
-</div>
 
-<!-- الحلقة الأولى -->
-<div id="ep1" class="episode">
-  <h2>الحلقة الأولى</h2>
-  <div class="btn-group">
-    <button class="play" onclick="playVideo('video1')">تشغيل</button>
-    <button class="pause" onclick="pauseVideo('video1')">إيقاف</button>
-  </div>
-  <video id="video1" src="https://713mamado-ctrl.github.io/podcast-site/assets/الحلقة1.mp4"></video>
-  <div class="btn-group">
-    <button class="forward" onclick="forwardVideo('video1')">⏩ تقديم</button>
-    <button class="rewind" onclick="rewindVideo('video1')">⏪ ترجيع</button>
+  <div class="control-buttons">
+    <button onclick="rewindVideo('videoIntro')">⏪ ترجيع</button>
+    <button onclick="pauseVideo('videoIntro')">⏸ إيقاف</button>
+    <button onclick="playVideo('videoIntro')">▶ تشغيل</button>
+    <button onclick="forwardVideo('videoIntro')">⏩ تقديم</button>
   </div>
 </div>
 
 <script>
-const episodes = ["ep-intro", "ep1"];
-let currentIndex = 0;
+const video = document.getElementById('videoIntro');
+const playBtn = document.getElementById('playBtnIntro');
 
-/* ✅ عرض الحلقة المطلوبة */
-function showEpisode(index) {
-  episodes.forEach((id,i)=>{
-    const ep = document.getElementById(id);
-    const vid = ep.querySelector("video");
-    vid.pause();
-    vid.classList.remove("show");
-    vid.style.display="none";
-    ep.style.display = (i === index) ? "block" : "none";
-  });
+function togglePlay(videoId, btnId) {
+  const v = document.getElementById(videoId);
+  const b = document.getElementById(btnId);
+  if (v.style.display === 'none') {
+    v.style.display = 'block';
+    b.style.display = 'none';
+    v.play();
+  } else if (v.paused) {
+    v.play();
+    b.style.display = 'none';
+  } else {
+    v.pause();
+    b.style.display = 'block';
+  }
 }
 
-/* ✅ تشغيل الفيديو */
-function playVideo(id){
-  const v=document.getElementById(id);
-  v.style.display="block";
-  setTimeout(()=>v.classList.add("show"),10);
+function playVideo(id) {
+  const v = document.getElementById(id);
+  v.style.display = 'block';
   v.play();
+  playBtn.style.display = 'none';
 }
 
-/* ✅ الإيقاف والتقديم والترجيع */
-function pauseVideo(id){ document.getElementById(id).pause(); }
-function forwardVideo(id){ const v=document.getElementById(id); v.currentTime+=5; }
-function rewindVideo(id){ const v=document.getElementById(id); v.currentTime=Math.max(0, v.currentTime-5); }
+function pauseVideo(id) {
+  const v = document.getElementById(id);
+  v.pause();
+  playBtn.style.display = 'block';
+}
 
-/* ✅ زر الحلقة التالية */
-document.getElementById("nextBtn").addEventListener("click",()=>{
-  const currentVideo = document.querySelector(`#${episodes[currentIndex]} video`);
-  currentVideo.pause();
-  currentIndex = (currentIndex + 1) % episodes.length;
-  showEpisode(currentIndex);
-  window.scrollTo({top:0, behavior:"smooth"});
-});
+function rewindVideo(id) {
+  const v = document.getElementById(id);
+  v.currentTime = Math.max(0, v.currentTime - 5);
+}
 
-/* ✅ زر الحلقة السابقة */
-document.getElementById("prevBtn").addEventListener("click",()=>{
-  const currentVideo = document.querySelector(`#${episodes[currentIndex]} video`);
-  currentVideo.pause();
-  currentIndex = (currentIndex - 1 + episodes.length) % episodes.length;
-  showEpisode(currentIndex);
-  window.scrollTo({top:0, behavior:"smooth"});
-});
+function forwardVideo(id) {
+  const v = document.getElementById(id);
+  v.currentTime = Math.min(v.duration, v.currentTime + 5);
+}
+
+function scrollToEpisode(id) {
+  document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "center" });
+  pauseVideo('videoIntro');
+}
 </script>
 
 </body>
