@@ -5,132 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>بودكاست المدقق اللغوي</title>
 <style>
-body {
-  margin: 0;
-  font-family: "Cairo", sans-serif;
-  background: #f9f9f9;
-  color: #222;
-}
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  z-index: 1000;
-  padding: 10px 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-header h1 {
-  margin: 0;
-  padding: 0 20px;
-  font-size: 1.5rem;
-  color: #007744;
-  text-align: center;
-}
-.nav-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 8px;
-  flex-direction: row;
-}
-.nav-buttons button {
-  background: #007744;
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: 0.3s;
-}
-.nav-buttons button:hover {
-  background: #00aa66;
-}
+body { margin:0; font-family:"Cairo",sans-serif; background:#f9f9f9; color:#222; }
+header { position:fixed; top:0; left:0; width:100%; background:#fff; z-index:1000; padding:10px 0; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+header h1 { margin:0; padding:0 20px; font-size:1.5rem; color:#007744; text-align:center; }
+.nav-buttons { display:flex; justify-content:center; gap:10px; margin-top:8px; flex-direction:row; }
+.nav-buttons button { background:#007744; color:#fff; border:none; padding:8px 14px; border-radius:6px; cursor:pointer; font-size:1rem; transition:0.3s; }
+.nav-buttons button:hover { background:#00aa66; }
 
-.episode-container {
-  margin-top: 140px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 50px;
-}
+.episode-container { margin-top:140px; display:flex; flex-direction:column; align-items:center; gap:50px; }
+.episode { background:#fff; width:40%; border-radius:12px; padding:15px; box-shadow:0 0 15px rgba(0,128,0,0.15); display:flex; flex-direction:column; align-items:center; gap:10px; transition:0.3s; }
+.video-container { position:relative; width:100%; aspect-ratio:16/9; background:#000; border-radius:10px; overflow:hidden; }
+video { width:100%; height:100%; border-radius:10px; display:none; }
+.play-button { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,119,68,0.9); color:#fff; border:none; border-radius:50%; width:70px; height:70px; font-size:1.5rem; cursor:pointer; z-index:10; transition:0.3s; }
+.play-button:hover { background:#00aa66; transform:translate(-50%,-50%) scale(1.1); }
+.control-buttons { display:flex; justify-content:space-between; width:100%; gap:10px; }
+.control-buttons button { flex:1; background:#007744; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; transition:0.3s; }
+.control-buttons button:hover { background:#00aa66; }
 
-.episode {
-  background: #fff;
-  width: 40%;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 0 15px rgba(0,128,0,0.15);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  transition: 0.3s;
-}
-
-.video-container {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16/9;
-  background: #000;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-video {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  display: none;
-}
-
-.play-button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  background: rgba(0,119,68,0.9);
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 10;
-  transition: 0.3s;
-}
-.play-button:hover {
-  background: #00aa66;
-  transform: translate(-50%,-50%) scale(1.1);
-}
-
-.control-buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  gap: 10px;
-}
-
-.control-buttons button {
-  flex: 1;
-  background: #007744;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.control-buttons button:hover {
-  background: #00aa66;
-}
-
-@media(max-width:768px){
-  .episode { width: 95%; }
-}
+@media(max-width:768px){ .episode { width:95%; } }
 </style>
 </head>
 <body>
@@ -204,65 +96,53 @@ video {
 const episodes = ['intro','ep1','ep2'];
 let currentIndex = 0;
 
+function stopAll() {
+  episodes.forEach(ep => {
+    const videoId = ep==='intro'?'videoIntro':'video'+ep.replace('ep','');
+    const v = document.getElementById(videoId);
+    if(v) { v.pause(); v.currentTime=0; }
+
+    const btn = document.getElementById('playBtn'+(ep==='intro'?'Intro':ep.replace('ep','')));
+    if(btn) btn.style.display='block';
+  });
+}
+
 function togglePlay(videoId, btnId) {
+  stopAll(); // الآن كل الفيديوهات تتوقف وتعود للبداية
   const v = document.getElementById(videoId);
   const b = document.getElementById(btnId);
-  if(v.style.display === 'none' || v.style.display === '') {
-    v.style.display = 'block';
-    b.style.display = 'none';
-    v.play();
-  } else if(v.paused) {
-    v.play();
-    b.style.display = 'none';
-  } else {
-    v.pause();
-    b.style.display = 'block';
-  }
+  v.style.display='block';
+  b.style.display='none';
+  v.play();
 }
 
 function playVideo(id) {
+  stopAll();
   const v = document.getElementById(id);
-  v.style.display = 'block';
+  v.style.display='block';
   v.play();
   const btn = document.querySelector(`#playBtn${id.replace('video','')}`);
-  if(btn) btn.style.display = 'none';
+  if(btn) btn.style.display='none';
 }
 
 function pauseVideo(id) {
   const v = document.getElementById(id);
   v.pause();
   const btn = document.querySelector(`#playBtn${id.replace('video','')}`);
-  if(btn) btn.style.display = 'block';
+  if(btn) btn.style.display='block';
 }
 
-function rewindVideo(id) {
-  const v = document.getElementById(id);
-  v.currentTime = Math.max(0,v.currentTime-5);
-}
-
-function forwardVideo(id) {
-  const v = document.getElementById(id);
-  v.currentTime = Math.min(v.duration,v.currentTime+5);
-}
+function rewindVideo(id) { const v = document.getElementById(id); v.currentTime=Math.max(0,v.currentTime-5); }
+function forwardVideo(id) { const v = document.getElementById(id); v.currentTime=Math.min(v.duration,v.currentTime+5); }
 
 function scrollToEpisode(id){
-  pauseAll();
+  stopAll();
   const index = episodes.indexOf(id);
-  if(index !== -1){
-    currentIndex = index;
-    document.getElementById(id).scrollIntoView({behavior:"smooth", block:"center"});
-  }
-}
-
-function pauseAll(){
-  episodes.forEach(ep => {
-    const v = document.getElementById('video'+ep.replace('ep',''));
-    if(v) v.pause();
-  });
+  if(index!==-1){ currentIndex=index; document.getElementById(id).scrollIntoView({behavior:"smooth", block:"center"}); }
 }
 
 function nextEpisode(){
-  pauseAll();
+  stopAll();
   if(currentIndex<episodes.length-1){
     currentIndex++;
     document.getElementById(episodes[currentIndex]).scrollIntoView({behavior:"smooth", block:"center"});
@@ -270,7 +150,7 @@ function nextEpisode(){
 }
 
 function prevEpisode(){
-  pauseAll();
+  stopAll();
   if(currentIndex>0){
     currentIndex--;
     document.getElementById(episodes[currentIndex]).scrollIntoView({behavior:"smooth", block:"center"});
