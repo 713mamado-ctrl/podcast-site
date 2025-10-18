@@ -33,7 +33,7 @@ header h1 {
   justify-content: center;
   gap: 10px;
   margin-top: 8px;
-  flex-direction: row; /* الأزرار دائمًا جنب بعض */
+  flex-direction: row;
 }
 .nav-buttons button {
   background: #007744;
@@ -107,24 +107,6 @@ video {
   transform: translate(-50%,-50%) scale(1.1);
 }
 
-.landscape-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(0,119,68,0.8);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 8px;
-  cursor: pointer;
-  z-index: 15;
-  font-size: 0.9rem;
-  transition: 0.3s;
-}
-.landscape-btn:hover {
-  background: #00aa66;
-}
-
 .control-buttons {
   display: flex;
   justify-content: space-between;
@@ -167,12 +149,11 @@ video {
   <div id="intro" class="episode">
     <h2>الافتتاحية</h2>
     <div class="video-container">
-      <video id="videoIntro" controls playsinline>
+      <video id="videoIntro" controls playsinline controlsList="nodownload">
         <source src="https://github.com/713mamado-ctrl/podcast-site/releases/download/v1-opening/ma3kom_podcast_ma3na.mp4" type="video/mp4">
         متصفحك لا يدعم تشغيل الفيديو.
       </video>
       <button class="play-button" id="playBtnIntro" onclick="togglePlay('videoIntro','playBtnIntro')">▶</button>
-      <button class="landscape-btn" onclick="toggleLandscape('videoIntro')">⤢</button>
     </div>
     <div class="control-buttons">
       <button onclick="rewindVideo('videoIntro')">⏪ ترجيع</button>
@@ -186,12 +167,11 @@ video {
   <div id="ep1" class="episode">
     <h2>الحلقة الأولى</h2>
     <div class="video-container">
-      <video id="video1" controls playsinline>
+      <video id="video1" controls playsinline controlsList="nodownload">
         <source src="https://713mamado-ctrl.github.io/podcast-site/assets/الحلقة1.mp4" type="video/mp4">
         متصفحك لا يدعم تشغيل الفيديو.
       </video>
       <button class="play-button" id="playBtn1" onclick="togglePlay('video1','playBtn1')">▶</button>
-      <button class="landscape-btn" onclick="toggleLandscape('video1')">⤢</button>
     </div>
     <div class="control-buttons">
       <button onclick="rewindVideo('video1')">⏪ ترجيع</button>
@@ -205,12 +185,11 @@ video {
   <div id="ep2" class="episode">
     <h2>الحلقة الثانية</h2>
     <div class="video-container">
-      <video id="video2" controls playsinline>
+      <video id="video2" controls playsinline controlsList="nodownload">
         <source src="" type="video/mp4">
         متصفحك لا يدعم تشغيل الفيديو.
       </video>
       <button class="play-button" id="playBtn2" onclick="togglePlay('video2','playBtn2')">▶</button>
-      <button class="landscape-btn" onclick="toggleLandscape('video2')">⤢</button>
     </div>
     <div class="control-buttons">
       <button onclick="rewindVideo('video2')">⏪ ترجيع</button>
@@ -238,17 +217,6 @@ function togglePlay(videoId, btnId) {
   } else {
     v.pause();
     b.style.display = 'block';
-  }
-}
-
-function toggleLandscape(videoId){
-  const video = document.getElementById(videoId);
-  if(video.requestFullscreen){
-    video.requestFullscreen();
-  } else if(video.webkitRequestFullscreen){
-    video.webkitRequestFullscreen();
-  } else if(video.msRequestFullscreen){
-    video.msRequestFullscreen();
   }
 }
 
