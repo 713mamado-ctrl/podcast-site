@@ -8,7 +8,20 @@
   body { font-family:"Cairo",sans-serif; background:#f9f9f9; margin:0; padding:0; text-align:center; }
   h1 { color:#007744; margin:30px 0; }
   .episode { background:#fff; margin:40px auto; padding:20px; border-radius:12px; width:60%; box-shadow:0 4px 10px rgba(0,0,0,0.1); display:none; }
-  video { width:100%; border-radius:10px; margin-top:10px; }
+  
+  /* ✅ الفيديو مصغَّر + إطار أخضر باهت + تأثير الظهور */
+  video { 
+    width:75%; 
+    border-radius:10px; 
+    margin-top:10px; 
+    border:4px solid #b6e2c3; 
+    box-shadow:0 0 10px rgba(0,128,0,0.1);
+    opacity:0; 
+    transition:opacity 1s ease; 
+    display:none;
+  }
+  video.show { opacity:1; display:block; }
+
   .btn-group { display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
   button { flex:1; padding:8px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; transition:0.2s; color:#fff; }
   button:hover { transform:scale(1.05); opacity:0.9; }
@@ -24,6 +37,7 @@
 
   @media (max-width:768px){
     .episode { width:90%; }
+    video { width:100%; }
     .nav-buttons { position:static; transform:none; flex-direction:row; justify-content:center; margin-bottom:15px; }
   }
 </style>
@@ -32,9 +46,9 @@
 
 <h1>بودكاست المدقق اللغوي</h1>
 
-<!-- أزرار التنقل بين الحلقات -->
+<!-- أزرار التنقل -->
 <div class="nav-buttons">
-  <button id="prevBtn">الحلقة السابقة ⬆️</button>
+  <button id="prevBtn">⬆️ الحلقة السابقة</button>
   <button id="nextBtn">⬇️ الحلقة التالية</button>
 </div>
 
@@ -47,7 +61,7 @@
   </div>
   <video id="introVideo" src="https://github.com/713mamado-ctrl/podcast-site/releases/download/v1-opening/ma3kom_podcast_ma3na.mp4"></video>
   <div class="btn-group">
-    <button class="forward" onclick="forwardVideo('introVideo')">تقديم ⏩</button>
+    <button class="forward" onclick="forwardVideo('introVideo')">⏩ تقديم</button>
     <button class="rewind" onclick="rewindVideo('introVideo')">⏪ ترجيع</button>
   </div>
 </div>
@@ -61,7 +75,7 @@
   </div>
   <video id="video1" src="https://713mamado-ctrl.github.io/podcast-site/assets/الحلقة1.mp4"></video>
   <div class="btn-group">
-    <button class="forward" onclick="forwardVideo('video1')">تقديم ⏩</button>
+    <button class="forward" onclick="forwardVideo('video1')">⏩ تقديم</button>
     <button class="rewind" onclick="rewindVideo('video1')">⏪ ترجيع</button>
   </div>
 </div>
@@ -76,13 +90,24 @@ function showEpisode(index) {
     const ep = document.getElementById(id);
     const vid = ep.querySelector("video");
     vid.pause();
+    vid.classList.remove("show");
+    vid.style.display="none";
     ep.style.display = (i === index) ? "block" : "none";
   });
 }
 
-// وظائف الفيديو
-function playVideo(id){ const v=document.getElementById(id); v.style.display="block"; v.play(); }
+// تشغيل الفيديو مع تأثير ظهور تدريجي
+function playVideo(id){
+  const v=document.getElementById(id);
+  v.style.display="block";
+  setTimeout(()=>v.classList.add("show"),10);
+  v.play();
+}
+
+// إيقاف الفيديو
 function pauseVideo(id){ document.getElementById(id).pause(); }
+
+// تقديم وترجيع
 function forwardVideo(id){ const v=document.getElementById(id); v.currentTime+=5; }
 function rewindVideo(id){ const v=document.getElementById(id); v.currentTime-=5; }
 
