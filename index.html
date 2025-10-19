@@ -44,7 +44,7 @@ video { width:100%; height:100%; border-radius:10px; display:none; }
     <h2>الافتتاحية</h2>
     <div class="video-container">
       <video id="videoIntro" controls playsinline controlsList="nodownload">
-        <source src="https://github.com/713mamado-ctrl/podcast-site/releases/download/v1-opening/ma3kom_podcast_ma3na.mp4" type="video/mp4">
+        <source src="assets/ma3kom_podcast_ma3na.mp4" type="video/mp4">
         متصفحك لا يدعم تشغيل الفيديو.
       </video>
       <button class="play-button" id="playBtnIntro" onclick="togglePlay('videoIntro','playBtnIntro')">▶</button>
@@ -62,7 +62,7 @@ video { width:100%; height:100%; border-radius:10px; display:none; }
     <h2>الحلقة الأولى</h2>
     <div class="video-container">
       <video id="video1" controls playsinline controlsList="nodownload">
-        <source src="https://713mamado-ctrl.github.io/podcast-site/assets/الحلقة1.mp4" type="video/mp4">
+        <source src="assets/الحلقة1.mp4" type="video/mp4">
         متصفحك لا يدعم تشغيل الفيديو.
       </video>
       <button class="play-button" id="playBtn1" onclick="togglePlay('video1','playBtn1')">▶</button>
@@ -71,4 +71,93 @@ video { width:100%; height:100%; border-radius:10px; display:none; }
       <button onclick="rewindVideo('video1')">⏪ ترجيع</button>
       <button onclick="pauseVideo('video1')">⏸ إيقاف</button>
       <button onclick="playVideo('video1')">▶ تشغيل</button>
-      <button onclick="forwardVide
+      <button onclick="forwardVideo('video1')">⏩ تقديم</button>
+    </div>
+  </div>
+
+  <!-- الحلقة الثانية -->
+  <div id="ep2" class="episode">
+    <h2>الحلقة الثانية</h2>
+    <div class="video-container">
+      <video id="video2" controls playsinline controlsList="nodownload">
+        <source src="assets/الحلقة الثانية.mp4" type="video/mp4">
+        متصفحك لا يدعم تشغيل الفيديو.
+      </video>
+      <button class="play-button" id="playBtn2" onclick="togglePlay('video2','playBtn2')">▶</button>
+    </div>
+    <div class="control-buttons">
+      <button onclick="rewindVideo('video2')">⏪ ترجيع</button>
+      <button onclick="pauseVideo('video2')">⏸ إيقاف</button>
+      <button onclick="playVideo('video2')">▶ تشغيل</button>
+      <button onclick="forwardVideo('video2')">⏩ تقديم</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const episodes = ['intro','ep1','ep2'];
+let currentIndex = 0;
+
+function stopAll() {
+  episodes.forEach(ep => {
+    const videoId = ep==='intro'?'videoIntro':'video'+ep.replace('ep','');
+    const v = document.getElementById(videoId);
+    if(v) { v.pause(); v.currentTime=0; }
+    const btn = document.getElementById('playBtn'+(ep==='intro'?'Intro':ep.replace('ep','')));
+    if(btn) btn.style.display='block';
+  });
+}
+
+function togglePlay(videoId, btnId) {
+  stopAll(); 
+  const v = document.getElementById(videoId);
+  const b = document.getElementById(btnId);
+  v.style.display='block';
+  b.style.display='none';
+  v.play();
+}
+
+function playVideo(id) {
+  stopAll();
+  const v = document.getElementById(id);
+  v.style.display='block';
+  v.play();
+  const btn = document.querySelector(`#playBtn${id.replace('video','')}`);
+  if(btn) btn.style.display='none';
+}
+
+function pauseVideo(id) {
+  const v = document.getElementById(id);
+  v.pause();
+  const btn = document.querySelector(`#playBtn${id.replace('video','')}`);
+  if(btn) btn.style.display='block';
+}
+
+function rewindVideo(id) { const v = document.getElementById(id); v.currentTime=Math.max(0,v.currentTime-5); }
+function forwardVideo(id) { const v = document.getElementById(id); v.currentTime=Math.min(v.duration,v.currentTime+5); }
+
+function scrollToEpisode(id){
+  stopAll();
+  const index = episodes.indexOf(id);
+  if(index!==-1){ currentIndex=index; document.getElementById(id).scrollIntoView({behavior:"smooth", block:"center"}); }
+}
+
+function nextEpisode(){
+  stopAll();
+  if(currentIndex<episodes.length-1){
+    currentIndex++;
+    document.getElementById(episodes[currentIndex]).scrollIntoView({behavior:"smooth", block:"center"});
+  }
+}
+
+function prevEpisode(){
+  stopAll();
+  if(currentIndex>0){
+    currentIndex--;
+    document.getElementById(episodes[currentIndex]).scrollIntoView({behavior:"smooth", block:"center"});
+  }
+}
+</script>
+
+</body>
+</html>
