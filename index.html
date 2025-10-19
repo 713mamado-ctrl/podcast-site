@@ -13,41 +13,11 @@ header h1 { margin:0; padding:0 20px; font-size:1.5rem; color:#007744; text-alig
 .nav-buttons button:hover { background:#00aa66; }
 
 .episode-container { margin-top:140px; display:flex; flex-direction:column; align-items:center; gap:50px; }
-
-.episode {
-  background:#fff;
-  width:80%;
-  border-radius:12px;
-  padding:20px;
-  box-shadow:0 0 15px rgba(0,128,0,0.15);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-  transition:0.3s;
-}
-
-.video-container {
-  position:relative;
-  width:100%;
-  max-width:1000px;
-  background:#000;
-  border-radius:14px;
-  overflow:hidden;
-}
-
-video {
-  width:100%;
-  height:auto;
-  max-height:80vh;
-  border-radius:14px;
-  display:none;
-  object-fit:cover;
-}
-
+.episode { background:#fff; width:60%; border-radius:12px; padding:20px; box-shadow:0 0 15px rgba(0,128,0,0.15); display:flex; flex-direction:column; align-items:center; gap:10px; transition:0.3s; }
+.video-container { position:relative; width:100%; aspect-ratio:16/9; background:#000; border-radius:10px; overflow:hidden; }
+video { width:100%; height:100%; border-radius:10px; display:none; }
 .play-button { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,119,68,0.9); color:#fff; border:none; border-radius:50%; width:70px; height:70px; font-size:1.5rem; cursor:pointer; z-index:10; transition:0.3s; }
 .play-button:hover { background:#00aa66; transform:translate(-50%,-50%) scale(1.1); }
-
 .control-buttons { display:flex; justify-content:space-between; width:100%; gap:10px; }
 .control-buttons button { flex:1; background:#007744; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; transition:0.3s; }
 .control-buttons button:hover { background:#00aa66; }
@@ -101,94 +71,4 @@ video {
       <button onclick="rewindVideo('video1')">⏪ ترجيع</button>
       <button onclick="pauseVideo('video1')">⏸ إيقاف</button>
       <button onclick="playVideo('video1')">▶ تشغيل</button>
-      <button onclick="forwardVideo('video1')">⏩ تقديم</button>
-    </div>
-  </div>
-
-  <!-- الحلقة الثانية -->
-  <div id="ep2" class="episode">
-    <h2>الحلقة الثانية</h2>
-    <div class="video-container">
-      <video id="video2" controls playsinline controlsList="nodownload">
-        <source src="https://github.com/713mamado-ctrl/podcast-site/raw/1ee461fe6159476d6117bb9855c18207cdaae7cf/assets/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A%D9%87.mp4" type="video/mp4">
-        متصفحك لا يدعم تشغيل الفيديو.
-      </video>
-      <button class="play-button" id="playBtn2" onclick="togglePlay('video2','playBtn2')">▶</button>
-    </div>
-    <div class="control-buttons">
-      <button onclick="rewindVideo('video2')">⏪ ترجيع</button>
-      <button onclick="pauseVideo('video2')">⏸ إيقاف</button>
-      <button onclick="playVideo('video2')">▶ تشغيل</button>
-      <button onclick="forwardVideo('video2')">⏩ تقديم</button>
-    </div>
-  </div>
-</div>
-
-<script>
-const episodes = ['intro','ep1','ep2'];
-let currentIndex = 0;
-
-function stopAll() {
-  episodes.forEach(ep => {
-    const videoId = ep==='intro'?'videoIntro':'video'+ep.replace('ep','');
-    const v = document.getElementById(videoId);
-    if(v) { v.pause(); v.currentTime=0; }
-
-    const btn = document.getElementById('playBtn'+(ep==='intro'?'Intro':ep.replace('ep','')));
-    if(btn) btn.style.display='block';
-  });
-}
-
-function togglePlay(videoId, btnId) {
-  stopAll(); 
-  const v = document.getElementById(videoId);
-  const b = document.getElementById(btnId);
-  v.style.display='block';
-  b.style.display='none';
-  v.play();
-}
-
-function playVideo(id) {
-  stopAll();
-  const v = document.getElementById(id);
-  v.style.display='block';
-  v.play();
-  const btn = document.querySelector(`#playBtn${id.replace('video','')}`);
-  if(btn) btn.style.display='none';
-}
-
-function pauseVideo(id) {
-  const v = document.getElementById(id);
-  v.pause();
-  const btn = document.querySelector(`#playBtn${id.replace('video','')}`);
-  if(btn) btn.style.display='block';
-}
-
-function rewindVideo(id) { const v = document.getElementById(id); v.currentTime=Math.max(0,v.currentTime-5); }
-function forwardVideo(id) { const v = document.getElementById(id); v.currentTime=Math.min(v.duration,v.currentTime+5); }
-
-function scrollToEpisode(id){
-  stopAll();
-  const index = episodes.indexOf(id);
-  if(index!==-1){ currentIndex=index; document.getElementById(id).scrollIntoView({behavior:"smooth", block:"center"}); }
-}
-
-function nextEpisode(){
-  stopAll();
-  if(currentIndex<episodes.length-1){
-    currentIndex++;
-    document.getElementById(episodes[currentIndex]).scrollIntoView({behavior:"smooth", block:"center"});
-  }
-}
-
-function prevEpisode(){
-  stopAll();
-  if(currentIndex>0){
-    currentIndex--;
-    document.getElementById(episodes[currentIndex]).scrollIntoView({behavior:"smooth", block:"center"});
-  }
-}
-</script>
-
-</body>
-</html>
+      <button onclick="forwardVide
